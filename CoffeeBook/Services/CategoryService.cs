@@ -8,5 +8,6 @@ namespace CoffeeBook.DAOs
 {
     internal class CategoryService
     {
+
     }
 }
