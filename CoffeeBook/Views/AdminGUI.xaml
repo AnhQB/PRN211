@@ -55,7 +55,7 @@
                 Header="Categorys">
                 <Grid Margin="20 0">
                     <Grid.RowDefinitions >
-                        <RowDefinition Height="50" x:Name="rowOne" />
+                        <RowDefinition Height="50"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
@@ -90,8 +90,35 @@
                               MaxLength="12"
                               materialDesign:TransitionAssist.DisableTransitions="True" />
                     </Grid>
-                    <ListView Grid.Row="1" Grid.ColumnSpan="5" Margin="0 15"></ListView>
-                </Grid>
+
+
+					<ListView Grid.Row="1" Grid.ColumnSpan="5" Margin="0 15"   ItemsSource="{Binding Category}" Name="lvCategory">
+						<ListView.View>
+							<GridView>
+								<GridView.Columns>
+									<GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}"></GridViewColumn>
+									<GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"></GridViewColumn>
+									
+								</GridView.Columns>
+							</GridView>
+						</ListView.View>
+					</ListView>
+					<StackPanel Grid.Row="2"  Orientation ="Vertical" 
+                            HorizontalAlignment="Right" Width="400" Margin="0 10" Background="#7FC6FF00">
+						<Label Name="lbTitle1" Foreground="Red" FontWeight="DemiBold" 
+                           FontSize="20" Content="{Binding Path=Id, Mode=OneWay}"  />
+
+						<Label Name="lbNameCategory" Content="Name"/>
+						<TextBox Name="txtNameCategory" HorizontalAlignment="Stretch" 
+                             Height="25" 
+                            Text="{Binding Path=Name ,Mode=OneWay}"
+                             DataContext="{Binding ElementName=lvAccount, 
+                             Path=SelectedItem}"          
+                            />
+
+						
+					</StackPanel>
+				</Grid>
             </TabItem>
             <TabItem
                 Header="Products">

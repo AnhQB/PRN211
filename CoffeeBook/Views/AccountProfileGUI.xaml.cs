@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CoffeeBook.DAOs;
+using CoffeeBook.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,7 +24,7 @@ namespace CoffeeBook.Views
         public AccountProfileGUI()
         {
             InitializeComponent();
+            DataContext = new ProfileViewModel(1);
         }
-
     }
 }

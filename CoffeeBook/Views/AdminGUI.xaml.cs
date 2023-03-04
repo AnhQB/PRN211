@@ -24,6 +24,7 @@ namespace CoffeeBook.Views
         {
             InitializeComponent();
             DataContext = new AccountViewModel();
-        }
+			
+		}
     }
 }
