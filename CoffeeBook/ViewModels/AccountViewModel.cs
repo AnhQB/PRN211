@@ -1,5 +1,6 @@
 ﻿using CoffeeBook.DAOs;
 using CoffeeBook.DTOs;
+using MVVMEmployee.Commands;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,17 +9,27 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 
 namespace CoffeeBook.ViewModels
 {
     public class AccountViewModel
     {
         AccountService accountService;
+
+        private string message;
+        public string Message
+        {
+            get { return message; }
+            set { message = value; OnPropertyChanged(); }
+        }
         public AccountViewModel()
         {
             accountService = new AccountService();
             LoadData();
             CurrentAccount = new AccountDTO();
+            saveCommand = new RelayCommand(Save);
         }
         #region INotifyPropertyChanged_Implementation
         public event PropertyChangedEventHandler PropertyChanged;
@@ -49,6 +60,28 @@ namespace CoffeeBook.ViewModels
             set { currentAccount = value; OnPropertyChanged(); }
         }
 
+        private RelayCommand saveCommand;
+        public RelayCommand SaveCommand
+        {
+            get { return saveCommand; }
+        }
 
+        public void Save()
+        {
+            try
+            {
+                var a = currentAccount;
+                /*var IsSaved = ObjEmployeeService.Add(CurrentEmployee);
+                LoadData();
+                if (IsSaved)
+                    Message = "Employee saved";
+                else
+                    Message = "Save operation failed";*/
+            }
+            catch (Exception ex)
+            {
+                Message = ex.Message;
+            }
+        }
     }
 }
