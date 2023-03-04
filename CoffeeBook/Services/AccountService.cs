@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Interop;
@@ -187,6 +188,24 @@ namespace CoffeeBook.DAOs
             {
                 var account = this.context.Accounts.Where(account => account.Id == id).FirstOrDefault();
                 return account;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public bool UpdateAccount(Account a)
+        {
+            try
+            {
+                var user = this.context.Accounts.Where(account => account.UserName == a.UserName).FirstOrDefault();
+                if (user != null) return false;
+                var account = this.context.Accounts.Where(account => account.Id == a.Id).FirstOrDefault();
+                account.UserName = a.UserName;
+                account.DisplayName = a.DisplayName;
+                a.PassWord = a.PassWord;
+                return true;
             }
             catch (Exception ex)
             {
