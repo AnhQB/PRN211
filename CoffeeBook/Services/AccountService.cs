@@ -38,6 +38,19 @@ namespace CoffeeBook.DAOs
             Account? account = context.Accounts.Find(Id);
             return account;
         }
+
+        public Account GetAccountByUserName(string name)
+        {
+            Account? account = context.Accounts.FirstOrDefault(u => u.UserName.Equals(name));
+            return account;
+        }
+
+        public Account GetAnotherAccountByUserName(Account accountParam)
+        {
+            Account? account = context.Accounts.FirstOrDefault(u => u.Id != accountParam.Id && u.UserName.Equals(accountParam.UserName));
+            return account;
+        }
+
         public bool UpdateAccount(Account account, string newPass)
         {
             bool isUpdated = false;
@@ -87,7 +100,7 @@ namespace CoffeeBook.DAOs
         public bool InsertAccount(AccountDTO account)
         {
             bool IsAdded = false;
-            if (GetAccountById(account.Id) != null)
+            if (GetAccountByUserName(account.UserName) != null)
             {
                 throw new ArgumentException("Username is already exist!");
             }
@@ -123,6 +136,10 @@ namespace CoffeeBook.DAOs
             return result > 0;*/
 
             bool isUpdated = false;
+            if (GetAnotherAccountByUserName(accountParam) != null)
+            {
+                throw new ArgumentException("Username is already exist!");
+            }
             try
             {
                 var account = GetAccountById(accountParam.Id);

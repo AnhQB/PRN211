@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CoffeeBook.Views"
+        xmlns:viewModels="clr-namespace:CoffeeBook.ViewModels"
         mc:Ignorable="d"
         Title="AdminGUI" Height="650" Width="1200"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -11,6 +12,9 @@
     <Window.Resources>
         
     </Window.Resources>
+    <Window.DataContext>
+        <viewModels:AccountViewModel/>
+    </Window.DataContext>
 
     <materialDesign:Card>
         <TabControl
@@ -208,7 +212,7 @@
                                 <Label Name="lbType" Content="Type" />
                                 <ComboBox
                                       Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                                      ItemsSource="{Binding AccountTypeEnumValues}" SelectedItem="{Binding SelectedEnum}"
+                                      ItemsSource="{Binding AccountTypeEnumValues}" SelectedItem="Admin"
                                       >
                                     
                                 </ComboBox>

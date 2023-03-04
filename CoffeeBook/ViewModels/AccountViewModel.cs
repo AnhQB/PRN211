@@ -56,7 +56,7 @@ namespace CoffeeBook.ViewModels
         public ObservableCollection<AccountDTO> AccountsList
         {
             get { return accountsList; }
-            set { accountsList = value; OnPropertyChanged(); }
+            set { accountsList = value; OnPropertyChanged(nameof(AccountsList)); }
         }
 
         public ObservableCollection<AccountTypeEnum> AccountTypeEnumValues { get; set; } = new ObservableCollection<AccountTypeEnum>();
