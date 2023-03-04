@@ -75,7 +75,7 @@ namespace CoffeeBook.ViewModels
 
         void Close()
         {
-            Application.Current.Shutdown();
+            Application.Current.MainWindow.Close();
         }
     }
 }
