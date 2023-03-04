@@ -8,42 +8,39 @@
         mc:Ignorable="d"
         Title="AccountProfileGUI" Height="450" Width="800">
 
-    <Grid>
-        <TextBox Height="40" IsReadOnly="True"
-            x:Name="NameTextBox"
-        materialDesign:HintAssist.Hint="Username" Margin="329,67,171,327" FontSize="16" Width="300">
+    <Grid Margin="0,0,0,-6">
+        <TextBox IsReadOnly="True"
+            x:Name="NameTextBox" Margin="329,66,217,346" FontSize="12">
             <TextBox.Text>
                 <Binding
-                Path="Name">
+                Path="UserName">
                 </Binding>
             </TextBox.Text>
         </TextBox>
-        <TextBox Height="40"
-            x:Name="DisplayName"
-        materialDesign:HintAssist.Hint="DisplayName" Margin="329,121,171,273" FontSize="16" Width="300">
+        <TextBox
+            x:Name="DisplayName" Margin="329,126,217,290" FontSize="12">
             <TextBox.Text>
                 <Binding
                 Path="DisplayName">
                 </Binding>
             </TextBox.Text>
         </TextBox>
-        <TextBox Height="40" Width="300"
-            x:Name="Pass"
-            materialDesign:HintAssist.Hint="Password" Margin="329,177,171,217" FontSize="18" Text="{Binding DisplayName}"/>
-        <PasswordBox Height="40"  Password="01234" MinWidth="72" Margin="329,233,171,161" FontSize="16"  Width="300"></PasswordBox>
-        <PasswordBox Height="40"  Password="01234" MinWidth="72" Margin="329,289,165,105" FontSize="18"></PasswordBox>
-        <Label Content="User Name" HorizontalAlignment="Left" Margin="128,71,0,0" VerticalAlignment="Top" Height="32" Width="113" FontSize="16"/>
-        <Label Content="Display Name" HorizontalAlignment="Left" Margin="128,126,0,0" VerticalAlignment="Top" Width="113" FontSize="16"/>
-        <Label Content="Password" HorizontalAlignment="Left" Margin="128,182,0,0" VerticalAlignment="Top" Width="113" FontSize="16"/>
-        <Label Content="New Password" HorizontalAlignment="Left" Margin="128,238,0,0" VerticalAlignment="Top" Width="113" FontSize="16"/>
-        <Label Content="Re-enter New Password" HorizontalAlignment="Left" Margin="128,294,0,0" VerticalAlignment="Top" Width="177" FontSize="16"/>
-        <Border Margin="20" BorderBrush="Black" BorderThickness="1"/>
-        <Label Content="Account Profile" Margin="299,10,299,384" FontSize="22" FontWeight="Bold" HorizontalContentAlignment="Center" Background="White" Foreground="#DDFF0000"/>
+        <TextBox
+            x:Name="PassWord"
+            materialDesign:HintAssist.Hint="Password" Margin="329,194,217,220" FontSize="12" Text="{Binding PassWord}"/>
+        <PasswordBox MinWidth="72" Margin="329,250,217,164" FontSize="16"/>
+        <PasswordBox MinWidth="72" Margin="329,306,217,108" FontSize="18"/>
+        <Label Content="User Name" HorizontalAlignment="Left" Margin="128,71,0,0" VerticalAlignment="Top" Height="23" Width="113" FontSize="12"/>
+        <Label Content="Display Name" HorizontalAlignment="Left" Margin="128,133,0,0" VerticalAlignment="Top" Width="113" FontSize="12"/>
+        <Label Content="Password" HorizontalAlignment="Left" Margin="128,190,0,0" VerticalAlignment="Top" Width="113" FontSize="12"/>
+        <Label Content="New Password" HorizontalAlignment="Left" Margin="128,246,0,0" VerticalAlignment="Top" Width="113" FontSize="12"/>
+        <Label Content="Re-enter New Password" HorizontalAlignment="Left" Margin="128,308,0,0" VerticalAlignment="Top" Width="177" FontSize="12"/>
+        <Label Content="Account Profile" Margin="299,10,298,396" FontSize="22" FontWeight="Bold" HorizontalContentAlignment="Center" Background="White" Foreground="#DDFF0000"/>
         <Button Width="80"
                 Style="{StaticResource MaterialDesignRaisedSecondaryLightButton}"
                 ToolTip="Resource name: MaterialDesignRaisedSecondaryLightButton"
                 Content="Update"
-                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" Margin="263,365,457,37" />
+                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" Margin="256,368,464,40" />
         <Button
                 Style="{StaticResource MaterialDesignRaisedLightButton}"
                 Width="80"

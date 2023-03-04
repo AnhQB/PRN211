@@ -181,5 +181,17 @@ namespace CoffeeBook.DAOs
             return isUpdated;
         }
 
+        public Account GetAccountById(int id)
+        {
+            try
+            {
+                var account = this.context.Accounts.Where(account => account.Id == id).FirstOrDefault();
+                return account;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
