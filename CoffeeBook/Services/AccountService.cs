@@ -200,11 +200,13 @@ namespace CoffeeBook.DAOs
             try
             {
                 var user = this.context.Accounts.Where(account => account.UserName == a.UserName).FirstOrDefault();
-                if (user != null) return false;
+                if (user.Id != a.Id) return false;
                 var account = this.context.Accounts.Where(account => account.Id == a.Id).FirstOrDefault();
                 account.UserName = a.UserName;
                 account.DisplayName = a.DisplayName;
                 a.PassWord = a.PassWord;
+                this.context.Accounts.Update(account);
+                this.context.SaveChanges();
                 return true;
             }
             catch (Exception ex)

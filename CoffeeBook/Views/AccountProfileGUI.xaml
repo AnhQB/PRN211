@@ -31,14 +31,14 @@
                 ToolTip="Resource name: MaterialDesignRaisedSecondaryLightButton"
                 Content="Update"
                 Margin="256,368,464,40" 
-                Command="{Binding Path =UpdateCommand}"/>
+                Command="{Binding UpdateCommand}"/>
         <Button
                 Style="{StaticResource MaterialDesignRaisedLightButton}"
                 Width="80"
                 ToolTip="Resource name: MaterialDesignRaisedLightButton"
                 Content="Cancel"
                 Margin="439,365,281,37" RenderTransformOrigin="0.511,0.629"
-                Command="{Binding Path =Close }"
+                Command="{Binding CloseCommand }"
                 />
     </Grid>
 </Window>

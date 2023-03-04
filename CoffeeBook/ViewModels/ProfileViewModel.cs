@@ -11,6 +11,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace CoffeeBook.ViewModels
 {
@@ -19,6 +20,7 @@ namespace CoffeeBook.ViewModels
         private Account account;
         AccountService accountService;
         private RelayCommand updateCommand;
+        private RelayCommand closeCommand;
 
         private string message;
         public string Message
@@ -32,6 +34,7 @@ namespace CoffeeBook.ViewModels
             accountService = new AccountService();
             loadData(id);
             updateCommand = new RelayCommand(Update);
+            closeCommand = new RelayCommand(Close);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -50,7 +53,12 @@ namespace CoffeeBook.ViewModels
         {
             get { return updateCommand; }
         }
-        
+
+        public RelayCommand CloseCommand
+        {
+            get { return closeCommand; }
+        }
+
         // load view
         void loadData(int id)
         {
@@ -60,7 +68,14 @@ namespace CoffeeBook.ViewModels
         // update
         void Update()
         {
-            accountService.UpdateAccount(account);
+            var a = accountService.UpdateAccount(account);
+            if (!a) MessageBox.Show("UserName is existed try another!");
+            else MessageBox.Show("Update Success");
+        }
+
+        void Close()
+        {
+            Application.Current.Shutdown();
         }
     }
 }
