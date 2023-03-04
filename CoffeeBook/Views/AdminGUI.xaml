@@ -86,6 +86,7 @@
                               MaxLength="12"
                               materialDesign:TransitionAssist.DisableTransitions="True" />
                     </Grid>
+<<<<<<< Updated upstream
                     <ListView Grid.Row="1" Grid.ColumnSpan="5" Margin="0 15"></ListView>
                 </Grid>
             </TabItem>

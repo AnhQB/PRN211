@@ -23,6 +23,7 @@ namespace CoffeeBook.Views
         public AdminGUI()
         {
             InitializeComponent();
+<<<<<<< Updated upstream
             DataContext = new AccountViewModel();
         }
     }

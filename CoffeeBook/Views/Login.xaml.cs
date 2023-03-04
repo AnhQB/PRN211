@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 
 namespace CoffeeBook.Views
 {
+<<<<<<< Updated upstream
 	/// <summary>
 	/// Interaction logic for Login.xaml
 	/// </summary>
