@@ -1,4 +1,5 @@
 ﻿using CoffeeBook.DTOs;
+using CoffeeBook.Enum;
 using CoffeeBook.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -31,20 +32,20 @@ namespace CoffeeBook.DAOs
             // return AccountDAO.Instance.Login(userName, passWord);
         }
 
-        public Account GetAccountByUserName(string userName)
-        {
 
-            Account? account = context.Accounts.Find(userName);
+        public Account GetAccountById(int Id)
+        {
+            Account? account = context.Accounts.Find(Id);
             return account;
         }
-        public bool UpdateAccount(string userName, string displayName, string pass, string newPass)
+        public bool UpdateAccount(Account account, string newPass)
         {
             bool isUpdated = false;
             try
             {
-                var account = GetAccountByUserName(userName);
-                account.DisplayName = displayName;
-                account.PassWord = newPass;
+                var account1 = GetAccountById(account.Id);
+                account1.DisplayName = account.DisplayName;
+                account1.PassWord = newPass;
                 var NoOfRowsAffected = context.SaveChanges();
                 isUpdated = NoOfRowsAffected > 0;
             }
@@ -71,7 +72,8 @@ namespace CoffeeBook.DAOs
                         Id = account.Id,
                         UserName = account.UserName,
                         DisplayName = account.DisplayName,
-                        Type = account.Type == 0 ? "Admin" : "Staff"
+                        Type = account.Type,
+                        TypeStr = account.Type.Equals((byte)AccountTypeEnum.Admin) ? "Admin" : "Staff"
                     });
                 }
             }
@@ -82,22 +84,22 @@ namespace CoffeeBook.DAOs
             return objAccountList;
         }
 
-        public bool InsertAccount(string name, string displayName, byte type)
+        public bool InsertAccount(AccountDTO account)
         {
             bool IsAdded = false;
-            if (GetAccountByUserName(name) != null)
+            if (GetAccountById(account.Id) != null)
             {
                 throw new ArgumentException("Username is already exist!");
             }
 
             try
             {
-                var account = new Account();
-                account.UserName = name;
-                account.DisplayName = displayName;
-                account.Type = type;
+                var account1 = new Account();
+                account1.UserName = account.UserName;
+                account1.DisplayName = account.DisplayName;
+                account1.Type = account.Type;
 
-                context.Accounts.Add(account);
+                context.Accounts.Add(account1);
                 var NoOfRowsAffected = context.SaveChanges();
                 IsAdded = NoOfRowsAffected > 0;
             }
@@ -113,7 +115,7 @@ namespace CoffeeBook.DAOs
             return result > 0;*/
         }
 
-        public bool UpdateAccount(string name, string displayName, byte type)
+        public bool UpdateAccount(Account accountParam)
         {
             /*string query = string.Format("UPDATE Account SET DisplayName = N'{1}', Type = {2} WHERE UserName = N'{0}'", name, displayName, type);
             int result = DataProvider.Instance.ExecuteNonQuery(query);
@@ -123,9 +125,9 @@ namespace CoffeeBook.DAOs
             bool isUpdated = false;
             try
             {
-                var account = GetAccountByUserName(name);
-                account.DisplayName = displayName;
-                account.Type = type;
+                var account = GetAccountById(accountParam.Id);
+                account.DisplayName = accountParam.DisplayName;
+                account.Type = accountParam.Type;
                 var NoOfRowsAffected = context.SaveChanges();
                 isUpdated = NoOfRowsAffected > 0;
             }
@@ -137,7 +139,7 @@ namespace CoffeeBook.DAOs
             return isUpdated;
         }
 
-        public bool DeleteAccount(string name)
+        public bool DeleteAccount(Account account)
         {
             /*string query = string.Format("Delete Account where UserName = N'{0}'", name);
             int result = DataProvider.Instance.ExecuteNonQuery(query);
@@ -146,7 +148,7 @@ namespace CoffeeBook.DAOs
             bool IsDeleted = false;
             try
             {
-                var accountDelete = GetAccountByUserName(name);
+                var accountDelete = GetAccountById(account.Id);
                 context.Accounts.Remove(accountDelete);
                 var NoOfRowsAffected = context.SaveChanges();
                 IsDeleted = NoOfRowsAffected > 0;
@@ -159,7 +161,7 @@ namespace CoffeeBook.DAOs
             return IsDeleted;
         }
 
-        public bool resetPassWord(string name)
+        public bool resetPassWord(Account accountParam)
         {
             /*string query = string.Format("Update Account SET PassWord=N'0' WHERE UserName=N'{0}'", name);
             int result = DataProvider.Instance.ExecuteNonQuery(query);
@@ -168,7 +170,7 @@ namespace CoffeeBook.DAOs
             bool isUpdated = false;
             try
             {
-                var account = GetAccountByUserName(name);
+                var account = GetAccountById(accountParam.Id);
                 account.PassWord = "0";
                 var NoOfRowsAffected = context.SaveChanges();
                 isUpdated = NoOfRowsAffected > 0;

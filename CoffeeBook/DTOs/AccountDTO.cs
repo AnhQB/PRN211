@@ -13,6 +13,10 @@ namespace CoffeeBook.DTOs
 
         public string DisplayName { get; set; }
 
-        public string Type { get; set; }
+        public byte Type { get; set; }
+
+        public string TypeStr { get; set; }
+
+        public string NewPass { get; set; }
     }
 }
