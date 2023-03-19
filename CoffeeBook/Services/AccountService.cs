@@ -201,7 +201,7 @@ namespace CoffeeBook.DAOs
             return isUpdated;
         }
 
-        public Account GetAccountById(int id)
+        /*public Account GetAccountById(int id)
         {
             try
             {
@@ -212,9 +212,9 @@ namespace CoffeeBook.DAOs
             {
                 throw ex;
             }
-        }
+        }*/
 
-        public bool UpdateAccount(Account a)
+        /*public bool UpdateAccount(Account a)
         {
             try
             {
@@ -232,6 +232,6 @@ namespace CoffeeBook.DAOs
             {
                 throw ex;
             }
-        }
+        }*/
     }
 }

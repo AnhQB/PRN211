@@ -33,13 +33,14 @@ namespace CoffeeBook.ViewModels
         public AccountViewModel()
         {
             accountService = new AccountService();
+            AccountsList = new ObservableCollection<AccountDTO>();
             AccountTypeEnumValues = new ObservableCollection<AccountTypeEnum>(System.Enum.GetValues(typeof(AccountTypeEnum)).Cast<AccountTypeEnum>());
-
             LoadData();
-            CurrentAccount = new AccountDTO();
+            //CurrentAccount = new AccountDTO();
             saveCommand = new RelayCommand(Save);
-            deleteCommand = new RelayCommand<AccountDTO>(Delete);
+            deleteCommand = new RelayCommand<int>(Delete);
             updateCommand = new RelayCommand(Update);
+            selectedCommand = new RelayCommand(lvAccount_SelectionChanged);
         }
 
         #region INotifyPropertyChanged_Implementation
@@ -61,16 +62,22 @@ namespace CoffeeBook.ViewModels
 
         public ObservableCollection<AccountTypeEnum> AccountTypeEnumValues { get; set; } = new ObservableCollection<AccountTypeEnum>();
 
-        private AccountTypeEnum _selectedEnum;
-        public AccountTypeEnum SelectedEnum
+        private AccountTypeEnum _selectedAccountTypeEnum = AccountTypeEnum.Staff;
+        public AccountTypeEnum SelectedAccountTypeEnum
         {
-            get { return _selectedEnum; }
-            set { _selectedEnum = value; OnPropertyChanged(); }
+            get { return _selectedAccountTypeEnum; }
+            set { _selectedAccountTypeEnum = value; OnPropertyChanged(); }
         }
 
         private void LoadData()
         {
-            AccountsList = new ObservableCollection<AccountDTO>(accountService.getListAccount());
+            //AccountsList = null;
+            //AccountsList = new ObservableCollection<AccountDTO>(accountService.getListAccount());
+            AccountsList.Clear();
+            foreach (var account in accountService.getListAccount())
+            {
+                AccountsList.Add(account);
+            }
         }
         #endregion
 
@@ -78,8 +85,13 @@ namespace CoffeeBook.ViewModels
         public AccountDTO CurrentAccount
         {
             get { return currentAccount; }
-            set { currentAccount = value; OnPropertyChanged(); }
+            set {
+                currentAccount = value;
+                OnPropertyChanged();
+
+            }
         }
+
 
         private RelayCommand saveCommand;
         public RelayCommand SaveCommand
@@ -91,7 +103,7 @@ namespace CoffeeBook.ViewModels
         {
             try
             {
-                currentAccount.Type = (byte)_selectedEnum;
+                currentAccount.Type = (byte)SelectedAccountTypeEnum;
                 var IsSaved = accountService.InsertAccount(currentAccount);
                 LoadData();
                 if (IsSaved)
@@ -105,17 +117,17 @@ namespace CoffeeBook.ViewModels
             }
         }
 
-        private RelayCommand<AccountDTO> deleteCommand;
+        private RelayCommand<int> deleteCommand;
         public ICommand DeleteCommand
         {
             get { return deleteCommand; }
         }
-        private void Delete(AccountDTO account)
+        private void Delete(int accountId)
         {
             try
             {
-               
-                Account user = accountMapper(account);
+
+                Account user = accountService.GetAccountById(accountId);
 
                 var IsSaved = accountService.DeleteAccount(user);
                 LoadData();
@@ -140,7 +152,7 @@ namespace CoffeeBook.ViewModels
         {
             try
             {
-                currentAccount.Type = (byte)_selectedEnum;
+                currentAccount.Type = (byte)SelectedAccountTypeEnum;
                 Account user = accountMapper(currentAccount);
                 var IsSaved = accountService.UpdateAccount(user, currentAccount.NewPass);
                 LoadData();
@@ -161,6 +173,28 @@ namespace CoffeeBook.ViewModels
             var mapper = config.CreateMapper();
             Account user = mapper.Map<Account>(account);
             return user;
+        }
+
+        private RelayCommand selectedCommand;
+        public RelayCommand SelectedCommand
+        {
+            get { return selectedCommand; }
+        }
+
+        private void lvAccount_SelectionChanged()
+        {
+            if (currentAccount != null)
+            {
+                var account = currentAccount;
+                if (account.Type == (byte)AccountTypeEnum.Staff)
+                {
+                    SelectedAccountTypeEnum = AccountTypeEnum.Staff;
+                }
+                else if (account.Type == (byte)AccountTypeEnum.Admin)
+                {
+                    SelectedAccountTypeEnum = AccountTypeEnum.Admin;
+                }
+            }
         }
     }
 }

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace CoffeeBook.ViewModels
 {
-    class CategoryViewModel
+    public class CategoryViewModel
     {
 		CategoryService categoryService;
 		public CategoryViewModel()
