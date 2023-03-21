@@ -39,6 +39,7 @@ namespace CoffeeBook.ViewModels
 		}
 		private void LoadData()
 		{
+			CategoryList = null;
 			CategoryList = new ObservableCollection<Category>(categoryService.getListCategory());
 		}
 		#endregion
@@ -50,5 +51,7 @@ namespace CoffeeBook.ViewModels
 			set { currentCategory = value; OnPropertyChanged(); }
 		}
 
-	}
+      
+
+    }
 }

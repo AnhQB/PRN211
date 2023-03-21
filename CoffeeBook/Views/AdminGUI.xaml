@@ -48,7 +48,32 @@
                         Search
                     </Button>
 
-                    <ListView Grid.Row="1" Grid.ColumnSpan="8" Margin="0,15,0,15"></ListView>
+                    <ListView Grid.Row="1" Grid.ColumnSpan="8" Margin="0 15"   ItemsSource="{Binding TurnOverViewModel.BillList}" Name="lvTurnOver">
+                        <ListView.View>
+                            <GridView>
+                                <GridView.Columns>
+                                    <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}"></GridViewColumn>
+                                    <GridViewColumn Header="DateCheckIn" DisplayMemberBinding="{Binding DateCheckIn}"></GridViewColumn>
+                                    <GridViewColumn Header="DateCheckOut" DisplayMemberBinding="{Binding DateCheckOut}"></GridViewColumn>
+                                    <GridViewColumn Header="Table" DisplayMemberBinding="{Binding IdTableNavigation.Name}"></GridViewColumn>
+                                    <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Status}"></GridViewColumn>
+                                    <GridViewColumn Header="Created by" DisplayMemberBinding="{Binding CreatedByNavigation.UserName}"></GridViewColumn>
+                                    <GridViewColumn Header="Action">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Button x:Name="btnDelete" Content="Delete"
+                                                                Command="{Binding DataContext.AccountViewModel.DeleteCommand, ElementName=lvAccount}"
+                                                                CommandParameter="{Binding Id}"
+                                                            ></Button>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView.Columns>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
                 </Grid>
             </TabItem>
             <TabItem
@@ -92,14 +117,25 @@
                     </Grid>
 
 
-					<ListView Grid.Row="1" Grid.ColumnSpan="5" Margin="0 15"   ItemsSource="{Binding Category}" Name="lvCategory">
+                    <ListView Grid.Row="1" Grid.ColumnSpan="5" Margin="0 15"   ItemsSource="{Binding CategoryViewModel.CategoryList}" Name="lvCategory">
 						<ListView.View>
 							<GridView>
 								<GridView.Columns>
 									<GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}"></GridViewColumn>
 									<GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"></GridViewColumn>
-									
-								</GridView.Columns>
+                                    <GridViewColumn Header="Action">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Button x:Name="btnDelete" Content="Delete"
+                                                                Command="{Binding DataContext.AccountViewModel.DeleteCommand, ElementName=lvAccount}"
+                                                                CommandParameter="{Binding Id}"
+                                                            ></Button>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView.Columns>
 							</GridView>
 						</ListView.View>
 					</ListView>
@@ -159,7 +195,32 @@
                               MaxLength="12"
                               materialDesign:TransitionAssist.DisableTransitions="True" />
                     </Grid>
-                    <ListView Grid.Row="1" Grid.ColumnSpan="5" Margin="0 15"></ListView>
+                    <ListView Grid.Row="1" ItemsSource="{Binding ProductViewModel.ProductsList}"  
+                                  Name="lvProduct" 
+                                  >
+                        <ListView.View>
+                            <GridView>
+                                <GridView.Columns>
+                                    <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}"></GridViewColumn>
+                                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"></GridViewColumn>
+                                    <GridViewColumn Header="Category" DisplayMemberBinding="{Binding IdCategoryNavigation.Name}" ></GridViewColumn>
+                                    <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Price}"></GridViewColumn>
+                                    <GridViewColumn Header="Action">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Button x:Name="btnDelete" Content="Delete"
+                                                                Command="{Binding DataContext.AccountViewModel.DeleteCommand, ElementName=lvAccount}"
+                                                                CommandParameter="{Binding Id}"
+                                                            ></Button>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView.Columns>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
                 </Grid>
             </TabItem>
             <TabItem

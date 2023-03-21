@@ -10,5 +10,9 @@ namespace CoffeeBook.ViewModels
     {
         public AccountViewModel AccountViewModel { get; set; }
         public CategoryViewModel CategoryViewModel { get; set; }
+
+        public ProductViewModel ProductViewModel { get; set; }
+
+        public TurnOverViewModel TurnOverViewModel { get; set; }
     }
 }

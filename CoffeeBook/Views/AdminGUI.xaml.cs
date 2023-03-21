@@ -27,7 +27,9 @@ namespace CoffeeBook.Views
             var adminGUIModelView = new AdminGUIViewModel()
             {
                 AccountViewModel = new AccountViewModel(),
-                CategoryViewModel = new CategoryViewModel()
+                CategoryViewModel = new CategoryViewModel(),
+                ProductViewModel = new ProductViewModel(),
+                TurnOverViewModel = new TurnOverViewModel()
             };
 
             DataContext = adminGUIModelView;
