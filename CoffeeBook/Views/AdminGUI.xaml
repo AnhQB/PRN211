@@ -4,17 +4,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CoffeeBook.Views"
+        xmlns:service="clr-namespace:CoffeeBook.Services"
         xmlns:viewModels="clr-namespace:CoffeeBook.ViewModels"
         mc:Ignorable="d"
         Title="AdminGUI" Height="650" Width="1200"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         >
     <Window.Resources>
-        
+        <service:ValueConverters x:Key="ValueConverters"/>
     </Window.Resources>
     <Window.DataContext>
         <viewModels:AdminGUIViewModel/>
     </Window.DataContext>
+
+
 
     <materialDesign:Card>
         <TabControl
@@ -79,11 +82,15 @@
             <TabItem
                 Header="Categorys">
                 <Grid Margin="20 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="11*"/>
+                        <ColumnDefinition Width="47*"/>
+                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions >
                         <RowDefinition Height="50"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Grid Grid.Row="0">
+                    <Grid Grid.Row="0" Grid.ColumnSpan="2">
                         <Grid.ColumnDefinitions >
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
@@ -102,109 +109,22 @@
                           ToolTip="Resource name: MaterialDesignPaperButton"
                           Content="UPDATE"/>
                         <Button Margin="10 0"
-                            Grid.Column="2"
-                          Style="{StaticResource MaterialDesignPaperButton}"
-                          ToolTip="Resource name: MaterialDesignPaperButton"
-                          Content="DELETE"/>
-                        <Button Margin="10 0"
                             Grid.Column="3"
                           Style="{StaticResource MaterialDesignPaperButton}"
                           ToolTip="Resource name: MaterialDesignPaperButton"
-                          Content="LOAD"/>
+                          Content="SEARCH BY NAME"/>
                         <TextBox Grid.Column="4" Margin="30 0"
                               MaxLength="12"
                               materialDesign:TransitionAssist.DisableTransitions="True" />
                     </Grid>
 
 
-                    <ListView Grid.Row="1" Grid.ColumnSpan="5" Margin="0 15"   ItemsSource="{Binding CategoryViewModel.CategoryList}" Name="lvCategory">
-						<ListView.View>
-							<GridView>
-								<GridView.Columns>
-									<GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}"></GridViewColumn>
-									<GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"></GridViewColumn>
-                                    <GridViewColumn Header="Action">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Button x:Name="btnDelete" Content="Delete"
-                                                                Command="{Binding DataContext.AccountViewModel.DeleteCommand, ElementName=lvAccount}"
-                                                                CommandParameter="{Binding Id}"
-                                                            ></Button>
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                </GridView.Columns>
-							</GridView>
-						</ListView.View>
-					</ListView>
-					<StackPanel Grid.Row="2"  Orientation ="Vertical" 
-                            HorizontalAlignment="Right" Width="400" Margin="0 10" Background="#7FC6FF00">
-						<Label Name="lbTitle1" Foreground="Red" FontWeight="DemiBold" 
-                           FontSize="20" Content="{Binding Path=Id, Mode=OneWay}"  />
-
-						<Label Name="lbNameCategory" Content="Name"/>
-						<TextBox Name="txtNameCategory" HorizontalAlignment="Stretch" 
-                             Height="25" 
-                            Text="{Binding Path=Name ,Mode=OneWay}"
-                             DataContext="{Binding ElementName=lvAccount, 
-                             Path=SelectedItem}"          
-                            />
-
-						
-					</StackPanel>
-				</Grid>
-            </TabItem>
-            <TabItem
-                Header="Products">
-                <Grid Margin="20 0">
-                    <Grid.RowDefinitions >
-                        <RowDefinition Height="50" />
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid Grid.Row="0">
-                        <Grid.ColumnDefinitions >
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Button Margin="10 0"
-                            Grid.Column="0"
-                          Style="{StaticResource MaterialDesignPaperButton}"
-                          ToolTip="Resource name: MaterialDesignPaperButton"
-                          Content="ADD"/>
-                        <Button Margin="10 0"
-                            Grid.Column="1"
-                          Style="{StaticResource MaterialDesignPaperButton}"
-                          ToolTip="Resource name: MaterialDesignPaperButton"
-                          Content="UPDATE"/>
-                        <Button Margin="10 0"
-                            Grid.Column="2"
-                          Style="{StaticResource MaterialDesignPaperButton}"
-                          ToolTip="Resource name: MaterialDesignPaperButton"
-                          Content="DELETE"/>
-                        <Button Margin="10 0"
-                            Grid.Column="3"
-                          Style="{StaticResource MaterialDesignPaperButton}"
-                          ToolTip="Resource name: MaterialDesignPaperButton"
-                          Content="LOAD"/>
-                        <TextBox Grid.Column="4" Margin="30 0"
-                              MaxLength="12"
-                              materialDesign:TransitionAssist.DisableTransitions="True" />
-                    </Grid>
-                    <ListView Grid.Row="1" ItemsSource="{Binding ProductViewModel.ProductsList}"  
-                                  Name="lvProduct" 
-                                  >
+                    <ListView Grid.Row="1" Grid.ColumnSpan="2" Margin="0,15,0,15"   ItemsSource="{Binding CategoryViewModel.CategoryList}" Name="lvCategory">
                         <ListView.View>
                             <GridView>
                                 <GridView.Columns>
                                     <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}"></GridViewColumn>
                                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"></GridViewColumn>
-                                    <GridViewColumn Header="Category" DisplayMemberBinding="{Binding IdCategoryNavigation.Name}" ></GridViewColumn>
-                                    <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Price}"></GridViewColumn>
                                     <GridViewColumn Header="Action">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
@@ -221,6 +141,133 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
+                    <StackPanel Grid.Row="1"  Orientation ="Vertical" 
+                            HorizontalAlignment="Left" Width="400" Margin="540,10,0,10" Background="#7FC6FF00" Grid.Column="1">
+                        <Label Name="lbTitle11" Foreground="Red" FontWeight="DemiBold" 
+                           FontSize="20" Content="{Binding Path=Id, Mode=OneWay}"  />
+
+                        <Label Name="lbCategoryId" Content="Product Name:"/>
+                        <TextBox Name="tbCategoryId" HorizontalAlignment="Stretch" 
+                             Height="25" 
+                                 IsReadOnly="False"
+                             Text="{Binding Path=CategoryViewModel.CurrentCategory.Id ,Mode=TwoWay}"          
+                            />
+
+                        <Label Name="lbCategoryName" Content="Category name:"/>
+                        <TextBox Name="tbCategoryName" HorizontalAlignment="Stretch" 
+                             Height="25" 
+                             Text="{Binding Path = CategoryViewModel.CurrentCategory.Name,Mode=TwoWay, Converter={StaticResource ValueConverters}}"  
+                                 />
+
+
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+            <TabItem
+                Header="Products">
+                <Grid Margin="20 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="144*"/>
+                        <ColumnDefinition Width="185*"/>
+                        <ColumnDefinition Width="502"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions >
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Grid.ColumnSpan="3">
+                        <Grid.ColumnDefinitions >
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="17.568"/>
+                            <ColumnDefinition Width="70.685"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Margin="10,9,10,9"
+                            Grid.Column="0"
+                          Style="{StaticResource MaterialDesignPaperButton}"
+                          ToolTip="Resource name: MaterialDesignPaperButton"
+                          Content="ADD"
+                           Command="{Binding Path=ProductViewModel.SaveProductCommand}"/>
+                        <Button Margin="10,9,10,9"
+                            Grid.Column="1"
+                          Style="{StaticResource MaterialDesignPaperButton}"
+                          ToolTip="Resource name: MaterialDesignPaperButton"
+                          Content="UPDATE"
+                          Command="{Binding Path=ProductViewModel.UpdateProductCommand}"/>
+                        <Button Margin="10,9,780,9"
+                            Grid.Column="3"
+                          Style="{StaticResource MaterialDesignPaperButton}"
+                          ToolTip="Resource name: MaterialDesignPaperButton"
+                          Content="SEARCH BY NAME" Grid.ColumnSpan="3"
+                          Command="{Binding Path=ProductViewModel.SearchProductCommand}"/>
+                        <TextBox Grid.Column="5" Margin="120,10,30,0"
+                              MaxLength="12"
+                              materialDesign:TransitionAssist.DisableTransitions="True"                              
+                          Text="{Binding ProductViewModel.SearchProductName, Mode=TwoWay}"/>
+                    </Grid>
+                    <ListView Grid.Row="1" ItemsSource="{Binding ProductViewModel.ProductsList}"  
+                                  Name="lvProduct" Margin="0,0,405,0" Grid.ColumnSpan="3" 
+                              SelectedItem="{Binding Path= ProductViewModel.CurrentProduct}"
+                                  >
+                        <ListView.View>
+                            <GridView>
+                                <GridView.Columns>
+                                    <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}"></GridViewColumn>
+                                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"></GridViewColumn>
+                                    <GridViewColumn Header="Category" DisplayMemberBinding="{Binding IdCategoryNavigation.Name}" ></GridViewColumn>
+                                    <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Price}"></GridViewColumn>
+                                    <GridViewColumn Header="Action">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Button x:Name="btnDelete" Content="Delete"
+                                                                Command="{Binding DataContext.ProductViewModel.DeleteProductCommand, ElementName=lvAccount}"
+                                                                CommandParameter="{Binding Id}"
+                                                            ></Button>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView.Columns>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <StackPanel Grid.Row="1"  Orientation ="Vertical" 
+                            HorizontalAlignment="Left" Width="400" Margin="102,10,0,10" Background="#7FC6FF00" Grid.Column="2"
+                                >
+                        <Label Name="lbTitle3123" Foreground="Red" FontWeight="DemiBold" 
+                           FontSize="20" Content="{Binding Path=Id213, Mode=OneWay}"  />
+
+                        <Label Name="lbProductId" Content="Product ID:"/>
+                        <TextBox Name="tbProductId" HorizontalAlignment="Stretch" 
+                             Height="25" 
+                             IsReadOnly="True"
+                             Text="{Binding Path=ProductViewModel.CurrentProduct.Id ,Mode=TwoWay, Converter={StaticResource ValueConverters}}"  
+                                 />
+
+                        <Label Name="lbProductName" Content="Product Name:"/>
+                        <TextBox Name="tbProductName" HorizontalAlignment="Stretch" 
+                             Height="25" 
+                             Text="{Binding Path=ProductViewModel.CurrentProduct.Name ,Mode=TwoWay}"          
+                            />
+
+                        <Label Name="lbProductCat" Content="Product Name:"/>
+
+                        <ComboBox Name="cbProductCategory"
+                                      Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                      ItemsSource="{Binding ProductViewModel.getCategoriesB}"
+                                      DisplayMemberPath="Name"
+                                      SelectedValuePath="Id"
+                                      SelectedValue="{Binding ProductViewModel.CurrentProduct.IdCategory }"/>
+
+                        <Label Name="lbProductPrice" Content="Product Price"/>
+                        <TextBox Name="tbProductPrice" HorizontalAlignment="Stretch" 
+                             Height="25" 
+                             Text="{Binding Path=ProductViewModel.CurrentProduct.Price ,Mode=TwoWay, Converter={StaticResource ValueConverters}}"        
+                            />
+                    </StackPanel>
                 </Grid>
             </TabItem>
             <TabItem
@@ -238,7 +285,7 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        
+
                         <TextBox Grid.Column="4" Margin="30 0"
                               MaxLength="12"
                               materialDesign:TransitionAssist.DisableTransitions="True" />
@@ -283,7 +330,7 @@
                             </Grid.RowDefinitions>
                             <StackPanel Grid.Row="0"  Orientation ="Vertical" 
                                 HorizontalAlignment="Left" Width="300" Margin="0 10">
-                                
+
                                 <Label Name="lbTitle" Foreground="Red" FontWeight="DemiBold" 
                                 FontSize="20" Content="{Binding Path=AccountViewModel.CurrentAccount.Id, Mode=TwoWay}" ContentStringFormat='Id: {0}' />
 

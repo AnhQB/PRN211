@@ -23,6 +23,11 @@ namespace CoffeeBook.DAOs
 			Category? category = context.Categories.Find(Name);
 			return category;
 		}
+		public Category GetCategoryById(int Id)
+		{
+			Category? category = context.Categories.FirstOrDefault(x => x.Id.Equals(Id));
+			return category;
+		}
 		public bool UpdateAccount(string Name)
 		{
 			bool isUpdated = false;
