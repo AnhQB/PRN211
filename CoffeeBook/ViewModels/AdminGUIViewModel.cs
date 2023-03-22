@@ -8,6 +8,7 @@ namespace CoffeeBook.ViewModels
 {
     public class AdminGUIViewModel
     {
+
         public AccountViewModel AccountViewModel { get; set; }
         public CategoryViewModel CategoryViewModel { get; set; }
 

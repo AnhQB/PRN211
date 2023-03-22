@@ -34,6 +34,11 @@ namespace MVVMEmployee.Commands
         {
             DoWork = work;
         }
+
+        public RelayCommand(Action<object> buttonClick)
+        {
+        }
+
         public bool CanExecute(object parameter)
         {
             return true;

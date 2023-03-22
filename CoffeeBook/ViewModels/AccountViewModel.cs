@@ -20,7 +20,7 @@ using System.Windows.Input;
 
 namespace CoffeeBook.ViewModels
 {
-    public class AccountViewModel
+    public class AccountViewModel : INotifyPropertyChanged
     {
         AccountService accountService;
 
@@ -34,7 +34,16 @@ namespace CoffeeBook.ViewModels
         {
             accountService = new AccountService();
             AccountsList = new ObservableCollection<AccountDTO>();
-            AccountTypeEnumValues = new ObservableCollection<AccountTypeEnum>(System.Enum.GetValues(typeof(AccountTypeEnum)).Cast<AccountTypeEnum>());
+            //AccountTypeEnumValues = new ObservableCollection<AccountTypeEnum>
+            //(System.Enum.GetValues(typeof(AccountTypeEnum))
+            //.Cast<AccountTypeEnum>());
+            AccountTypeCombos = new List<AccountTypeCombo>()
+            {
+                new AccountTypeCombo("Admin", "0"),
+                new AccountTypeCombo("Staff", "1"),
+            };
+            SelectedAccountType = AccountTypeCombos[1];
+
             LoadData();
             //CurrentAccount = new AccountDTO();
             saveCommand = new RelayCommand(Save);
@@ -69,6 +78,27 @@ namespace CoffeeBook.ViewModels
             set { _selectedAccountTypeEnum = value; OnPropertyChanged(); }
         }
 
+        public List<AccountTypeCombo> accountTypeCombos;
+        public List<AccountTypeCombo> AccountTypeCombos
+        {
+            get { return accountTypeCombos; }
+            set
+            {
+                accountTypeCombos = value; OnPropertyChanged(nameof(AccountTypeCombos));
+            }
+        }
+
+
+        public AccountTypeCombo selectedAccountType;
+        public AccountTypeCombo SelectedAccountType
+        {
+            get { return selectedAccountType; }
+            set
+            {
+                selectedAccountType = value; OnPropertyChanged(nameof(SelectedAccountType));
+            }
+        }
+
         private void LoadData()
         {
             //AccountsList = null;
@@ -87,8 +117,11 @@ namespace CoffeeBook.ViewModels
             get { return currentAccount; }
             set {
                 currentAccount = value;
-                OnPropertyChanged();
-
+                OnPropertyChanged(nameof(CurrentAccount));
+                if(currentAccount != null) {
+                    SelectedAccountType = AccountTypeCombos.First(x => x.Value == currentAccount.Type.ToString());
+                    OnPropertyChanged(nameof(SelectedAccountType));
+                }
             }
         }
 
@@ -196,5 +229,7 @@ namespace CoffeeBook.ViewModels
                 }
             }
         }
+
+        
     }
 }

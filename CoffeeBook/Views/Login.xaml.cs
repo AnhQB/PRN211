@@ -24,25 +24,10 @@ namespace CoffeeBook.Views
     /// </summary>
     public partial class Login : Window
     {
-        SqlConnection con = new SqlConnection();
-        SqlCommand com = new SqlCommand();
-        SqlDataReader dr;
-
         public Login()
         {
             InitializeComponent();
-			
+            DataContext = new LoginViewModel();
 		}
-
-		private void btnLogin_Click(object sender, RoutedEventArgs e)
-		{
-           
-		}
-       
-		private void btnExit_Click(object sender, RoutedEventArgs e)
-		{
-            Application.Current.Shutdown();
-		}
-
 	}
 }

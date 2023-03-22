@@ -15,7 +15,7 @@ using System.Windows;
 
 namespace CoffeeBook.ViewModels
 {
-    public class ProfileViewModel
+    public class ProfileViewModel : INotifyPropertyChanged
     {
         private Account account;
         AccountService accountService;

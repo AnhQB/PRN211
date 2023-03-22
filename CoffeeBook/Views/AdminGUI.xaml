@@ -351,8 +351,11 @@
                                 <ComboBox
                                     Name="cbTypeAccount"
                                       Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                                      ItemsSource="{Binding AccountViewModel.AccountTypeEnumValues}"
-                                      SelectedItem="{Binding AccountViewModel.CurrentAccount.Type }"
+                                      ItemsSource="{Binding AccountViewModel.AccountTypeCombos}"
+                                      SelectedItem="{Binding AccountViewModel.SelectedAccountType }"
+                                      DisplayMemberPath="Display"
+                                      SelectedValuePath="Value"
+                                      SelectedIndex="1"
                                       />
 
 

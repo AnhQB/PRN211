@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CoffeeBook.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,12 @@ namespace CoffeeBook.Views
         public GeneralManagementGUI()
         {
             InitializeComponent();
+            DataContext = new GeneralViewModel();
+        }
+
+        private void TextBox_ColorChanged(object sender, RoutedPropertyChangedEventArgs<Color> e)
+        {
+
         }
     }
 }

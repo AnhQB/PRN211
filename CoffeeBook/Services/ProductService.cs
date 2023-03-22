@@ -70,7 +70,7 @@ namespace CoffeeBook.DAOs
         }
 
         public int GetCategoryID(int IdCategory)
-        { 
+        {
             List<Category> c = context.Categories.ToList();
             for(int i=0;i<c.Count; i++)
             {
