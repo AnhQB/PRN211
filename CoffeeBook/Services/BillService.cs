@@ -39,5 +39,37 @@ namespace CoffeeBook.DAOs
             return objAccountList;
         }
 
+        public List<Menu> GetListBillByTableId(int tableId)
+        {
+            Bill bill = context.Bills.FirstOrDefault(b => b.IdTable == tableId && b.Status == 0);
+            List<BillInfo> billInfos = context.BillInfos
+                                        .Include(b => b.IdBillNavigation)
+                                        .Include(b => b.IdProductNavigation)
+                                        .Where(b => b.IdBill == bill.Id)
+                                        .ToList();
+
+            List<Menu> list = new List<Menu>();
+            foreach(var item in billInfos)
+            {
+                list.Add(new Menu()
+                {
+                    Count= item.Count,
+                    Price = (float)item.IdProductNavigation.Price,
+                    ProductName = item.IdProductNavigation.Name,
+                    TotalPrice = item.Count * (float)item.IdProductNavigation.Price
+                });
+            }
+
+            
+            return list;
+
+        }
+
+        public void AddBill(Bill i, int id, int count)
+        {
+            
+            context.Bills.Add(i);
+
+        }
     }
 }

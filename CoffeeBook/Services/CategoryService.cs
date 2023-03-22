@@ -141,7 +141,10 @@ namespace CoffeeBook.DAOs
 		}
 
 		
-
+		public Category getCategoryId(int id)
+		{
+			return context.Categories.FirstOrDefault(x => x.Id == id); 
+		}
 	
   }
 }

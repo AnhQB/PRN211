@@ -6,9 +6,13 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:CoffeeBook.Views"
         mc:Ignorable="d"
-        Title="GeneralManagementGUI" Height="450" Width="800">
+        Title="GeneralManagementGUI" Height="600" Width="920">
     <Grid>
-        <Menu>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0" Height="50">
             <MenuItem
                 Header="Admin"
                 Background="{DynamicResource PrimaryHueMidBrush}"
@@ -16,7 +20,7 @@
                 <MenuItem
                   Header="Account Information"
                   Background="{DynamicResource SecondaryHueMidBrush}"
-                  Foreground="{DynamicResource SecondaryHueMidForegroundBrush}" />
+                  Foreground="{DynamicResource SecondaryHueMidForegroundBrush}"/>
                 <MenuItem
                  Header="Logout"
                  Background="{DynamicResource SecondaryHueMidBrush}"
@@ -29,52 +33,99 @@
             </MenuItem>
             <ListBox/>
         </Menu>
-        <ScrollViewer Margin="10,105,434,269">
-        </ScrollViewer>
-        <ComboBox
-                materialDesign:HintAssist.Hint="Cà phê" Margin="439,44,188,0" VerticalAlignment="Top" FontSize="15 ">
-            <ComboBoxItem
-                  Content="Android" />
-            <ComboBoxItem
-                  Content="iOS" />
-            <ComboBoxItem
-                  Content="Linux" />
-            <ComboBoxItem
-                  Content="Windows" />
-        </ComboBox>
-        <ComboBox
-                materialDesign:HintAssist.Hint="Cà phê đen nóng/đá" Margin="439,84,188,0" VerticalAlignment="Top" FontSize="16">
-            <ComboBoxItem
-                  Content="Android" />
-            <ComboBoxItem
-                  Content="iOS" />
-            <ComboBoxItem
-                  Content="Linux" />
-            <ComboBoxItem
-                  Content="Windows" />
-        </ComboBox>
-        <TextBox Margin="635,58,139,348" Text="3" VerticalAlignment="Center"/>
-        <Button Width="80"
-                Style="{StaticResource MaterialDesignRaisedSecondaryLightButton}"
-                ToolTip="Resource name: MaterialDesignRaisedSecondaryLightButton"
-                Content="Add"
-                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" Margin="690,58,30,344" />
-        <ListView Width="350" Margin="400,119,50,77">
-            <DataGrid
-                ItemsSource="{Binding Items2}"
-                CanUserAddRows="False"
-                SelectionUnit="Cell"
-                SelectionMode="Extended" Height="225" Width="330" />
-        </ListView>
-        <TextBlock Height="30" Width="80" Margin="575,386,145,18" Text="0" TextAlignment="Center" FontSize="18"
-                   ></TextBlock>
-        <Button Height="30"
-            Style="{StaticResource MaterialDesignFlatSecondaryMidBgButton}"
-            ToolTip="MaterialDesignFlatAccentBackgroundButton"
-            Content="Payment"
-            IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" Margin="680,386,20,18" />
-        <TextBlock Height="30" Width="80" Margin="360,386,360,18" Text="Discount" TextAlignment="Center" FontSize="18" FontWeight="Bold"></TextBlock>
-        <TextBox Height="30" Width="80" Margin="458,386,262,18" Text="0" TextAlignment="Center" FontSize="18"></TextBox>
+        <Grid Grid.Row="1" Height="470">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/> 
+                <ColumnDefinition Width="Auto"/> 
+            </Grid.ColumnDefinitions>
+            <ItemsControl ItemsSource="{Binding ButtonList}" Grid.Column="0" Width="400" Height="Auto">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Content="{Binding Name}" Background="{Binding Background}" 
+                                Width="{Binding Width}" Height="{Binding Height}"
+                                Margin="5"
+                                Command="{Binding DataContext.ButtonClickCommand, 
+                                RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                CommandParameter="{Binding}"
+                                />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Grid Grid.Column="1" Margin="10 0 0 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation ="Vertical" Grid.Row="0" Width="Auto" Height="Auto">
+                    <TextBox Text="{Binding TableName,Mode=OneWay}"/>
+                    <ComboBox
+                        materialDesign:HintAssist.Hint="Category" VerticalAlignment="Top" FontSize="15 "
+                        ItemsSource="{Binding ListCategory}"
+                        DisplayMemberPath="Name"
+                        SelectedValuePath="Id"
+                        SelectedItem="{Binding SelectedCategory}"
+                        >
+                    </ComboBox>
+                    <ComboBox
+                        materialDesign:HintAssist.Hint="Product" VerticalAlignment="Top" FontSize="16"
+                        ItemsSource="{Binding ListProduct}"
+                        DisplayMemberPath="Name"
+                        SelectedValuePath="Id"
+                        SelectedItem="{Binding SelectedProduct}"
+                        >
+                    </ComboBox>
+                    <TextBox  Text="{Binding CurrentMenu.Count}" VerticalAlignment="Center"/>
+                    <Button Margin="10 20 10 0"
+                            Style="{StaticResource MaterialDesignRaisedSecondaryLightButton}"
+                            ToolTip="Resource name: MaterialDesignRaisedSecondaryLightButton"
+                            Content="Add"
+                            IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" 
+                            Command="{Binding Path=SaveCommand}"
+                            />
+                    <ListView ScrollViewer.VerticalScrollBarVisibility="Auto" ItemsSource="{Binding ProductsList}">
+                        <ListView.View>
+                            <GridView>
+                                <GridView.Columns>
+                                    <GridViewColumn Header="ProductName" DisplayMemberBinding="{Binding ProductName}"></GridViewColumn>
+                                    <GridViewColumn Header="Count" DisplayMemberBinding="{Binding Count}"></GridViewColumn>
+                                    <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Price}"></GridViewColumn>
+                                    <GridViewColumn Header="Total Price" DisplayMemberBinding="{Binding TotalPrice}"></GridViewColumn>
+                                </GridView.Columns>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </StackPanel>
+                <Grid Grid.Row="1" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <DockPanel Grid.Column="0" Margin="20 0">
+                        <TextBlock DockPanel.Dock="Top"  Grid.Column="0" Height="30" Width="80" 
+                                   Text="Discount" TextAlignment="Center" FontSize="18" FontWeight="Bold"></TextBlock>
+                        <TextBox Grid.Column="1" Height="30" Width="80"  
+                                 Text="0" TextAlignment="Center" FontSize="18"></TextBox>
+                    </DockPanel>
+                    <TextBlock  Grid.Column="1" Height="30" Width="80" Text="0" 
+                                TextAlignment="Center" FontSize="18" FontWeight="Bold"/>
+                    <Button Margin="10 0" Height="30" Grid.Column="2"
+                        Style="{StaticResource MaterialDesignFlatSecondaryMidBgButton}"
+                        ToolTip="MaterialDesignFlatAccentBackgroundButton"
+                        Content="Payment"
+                        IsEnabled="{Binding DataContext.ControlsEnabled, 
+                        RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" />
+                </Grid>
+            </Grid>
+            
+        </Grid>
+        
+        
     </Grid>
 </Window>
 

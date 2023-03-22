@@ -36,5 +36,10 @@ namespace CoffeeBook.DAOs
             }
             return objAccountList;
         }
+
+        public Product getProductId(int id)
+        {
+            return context.Products.FirstOrDefault(x => x.Id == id);
+        }
     }
 }

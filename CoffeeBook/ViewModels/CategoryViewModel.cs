@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace CoffeeBook.ViewModels
 {
-    public class CategoryViewModel
+    public class CategoryViewModel : INotifyPropertyChanged
     {
 		CategoryService categoryService;
 		public CategoryViewModel()

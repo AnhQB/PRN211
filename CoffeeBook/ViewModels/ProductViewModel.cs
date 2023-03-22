@@ -15,7 +15,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace CoffeeBook.ViewModels
 {
-    public class ProductViewModel
+    public class ProductViewModel : INotifyPropertyChanged
     {
         ProductService productService;
         public ProductViewModel()

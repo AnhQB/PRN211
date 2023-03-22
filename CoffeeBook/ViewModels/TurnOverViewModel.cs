@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CoffeeBook.ViewModels
 {
-    public class TurnOverViewModel
+    public class TurnOverViewModel : INotifyPropertyChanged
     {
         BillService billService;
         public TurnOverViewModel()

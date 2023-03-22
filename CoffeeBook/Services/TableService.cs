@@ -12,7 +12,7 @@ namespace CoffeeBook.DAOs
     {
         private static TableService instance;
         CoffeeManagementsContext context;
-
+/*
         public static TableService Instance
         {
             get { if (instance == null) instance = new TableService(); return TableService.instance; }
@@ -20,9 +20,9 @@ namespace CoffeeBook.DAOs
         }
 
         public static int TableWidth = 80;
-        public static int TableHeight = 80;
+        public static int TableHeight = 80;*/
 
-        private TableService() {
+        public TableService() {
             context = new CoffeeManagementsContext();
         }
 
@@ -36,6 +36,12 @@ namespace CoffeeBook.DAOs
             List<Table> tableList = context.Tables.ToList();
 
             return tableList;
+        }
+
+        public void UpdateTable(int id, byte status) {
+            Table t = context.Tables.FirstOrDefault(x => x.Id == id);
+            t.Status = status;
+            context.SaveChanges();
         }
     }
 }
