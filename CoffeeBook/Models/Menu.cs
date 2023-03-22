@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper.Configuration.Conventions;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace CoffeeBook.Models
 {
   public class Menu
     {
-
+        public int Id { get; set; }
         public string ProductName { get; set; }
         public int Count { get; set; }
         public float Price { get; set; }

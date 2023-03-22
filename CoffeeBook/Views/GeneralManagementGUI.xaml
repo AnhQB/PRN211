@@ -62,13 +62,14 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <StackPanel Orientation ="Vertical" Grid.Row="0" Width="Auto" Height="Auto">
-                    <TextBox Text="{Binding TableName,Mode=OneWay}"/>
+                    <TextBox Text="{Binding TableName,Mode=OneWay}" FontWeight="Bold" FontSize="20"/>
                     <ComboBox
-                        materialDesign:HintAssist.Hint="Category" VerticalAlignment="Top" FontSize="15 "
+                        materialDesign:HintAssist.Hint="Category" VerticalAlignment="Top" FontSize="16"
                         ItemsSource="{Binding ListCategory}"
                         DisplayMemberPath="Name"
                         SelectedValuePath="Id"
                         SelectedItem="{Binding SelectedCategory}"
+                        Margin="0 5"
                         >
                     </ComboBox>
                     <ComboBox
@@ -79,7 +80,7 @@
                         SelectedItem="{Binding SelectedProduct}"
                         >
                     </ComboBox>
-                    <TextBox  Text="{Binding CurrentMenu.Count}" VerticalAlignment="Center"/>
+                    <TextBox  Text="{Binding CurrentMenu.Count}" VerticalAlignment="Center" Margin="0 5" FontSize="16"/>
                     <Button Margin="10 20 10 0"
                             Style="{StaticResource MaterialDesignRaisedSecondaryLightButton}"
                             ToolTip="Resource name: MaterialDesignRaisedSecondaryLightButton"
@@ -87,7 +88,7 @@
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" 
                             Command="{Binding Path=SaveCommand}"
                             />
-                    <ListView ScrollViewer.VerticalScrollBarVisibility="Auto" ItemsSource="{Binding ProductsList}">
+                    <ListView ScrollViewer.VerticalScrollBarVisibility="Auto" ItemsSource="{Binding MenuList}">
                         <ListView.View>
                             <GridView>
                                 <GridView.Columns>
@@ -112,12 +113,15 @@
                         <TextBox Grid.Column="1" Height="30" Width="80"  
                                  Text="0" TextAlignment="Center" FontSize="18"></TextBox>
                     </DockPanel>
-                    <TextBlock  Grid.Column="1" Height="30" Width="80" Text="0" 
-                                TextAlignment="Center" FontSize="18" FontWeight="Bold"/>
+                    <TextBox  Grid.Column="1" Height="30" Width="80" 
+                                TextAlignment="Center" FontSize="18" FontWeight="Bold"
+                                Text="{Binding TotalMenu,Mode=OneWay}" 
+                                />
                     <Button Margin="10 0" Height="30" Grid.Column="2"
                         Style="{StaticResource MaterialDesignFlatSecondaryMidBgButton}"
                         ToolTip="MaterialDesignFlatAccentBackgroundButton"
-                        Content="Payment"
+                        Content="Pay"
+                        Command="{Binding PaymentCommand}"
                         IsEnabled="{Binding DataContext.ControlsEnabled, 
                         RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" />
                 </Grid>

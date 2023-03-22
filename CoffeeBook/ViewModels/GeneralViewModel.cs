@@ -7,8 +7,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -43,23 +45,16 @@ namespace CoffeeBook.ViewModels
             categoryService = new CategoryService();
             productService = new ProductService();
 
-            /*ButtonList = new ObservableCollection<Button>()
-            {
-                new Button { Content = "Button 1" },
-                new Button { Content = "Button 2" },
-                new Button { Content = "Button 3" },
-                new Button { Content = "Button 4" },
-                new Button { Content = "Button 5" },
-                new Button { Content = "Button 6" },
-
-            };*/
             saveCommand = new RelayCommand(Save);
+            paymentCommand = new RelayCommand(Payment);
+
             listCategory = new List<Category>();
             listProduct = new List<Product>();
+
             LoadTable();
             ButtonClickCommand = new RelayCommand<TableDTO>(ButtonClick);
             currentMenu = new Models.Menu();
-            ProductsList = new ObservableCollection<Models.Menu>();
+            menuList = new ObservableCollection<Models.Menu>();
             LoadCategory();
             LoadProduct(null);
         }
@@ -104,7 +99,7 @@ namespace CoffeeBook.ViewModels
             ListProduct = productService.getListProduct();
             if (cateId != null)
             {
-                ListProduct.Where(x => x.IdCategory == cateId);
+                ListProduct = ListProduct.Where(x => x.IdCategory == cateId).ToList();
             }
         }
 
@@ -147,11 +142,37 @@ namespace CoffeeBook.ViewModels
         {
             SelectedTable = parameter;
             TableName = parameter.Name;
-            ProductsList = null;
+            MenuList = new ObservableCollection<Models.Menu>();
             if (parameter.Status != 0)
             {
-                List<Models.Menu> menu = billService.GetListBillByTableId(parameter.Id);
-                ProductsList = new ObservableCollection<Models.Menu>(menu);
+                
+                LoadMenu(parameter.Id);
+            }
+        }
+
+        private void LoadMenu(int idTable)
+        {
+            List<Models.Menu> menu = billService.GetListBillByTableId(idTable);
+            MenuList = new ObservableCollection<Models.Menu>(menu);
+            float total = 0;
+            foreach(var item in MenuList)
+            {
+                total += item.TotalPrice;
+            }
+            TotalMenu = total.ToString("N0") + "đ";
+        }
+
+        private string totalMenu;
+        public string TotalMenu
+        {
+            get { return totalMenu; }
+            set
+            {
+                if (totalMenu != value)
+                {
+                    totalMenu = value;
+                    OnPropertyChanged(nameof(TotalMenu));
+                }
             }
         }
 
@@ -186,11 +207,11 @@ namespace CoffeeBook.ViewModels
             return tableDTOs;
         }
 
-        private ObservableCollection<Models.Menu> productsList;
-        public ObservableCollection<Models.Menu> ProductsList
+        private ObservableCollection<Models.Menu> menuList;
+        public ObservableCollection<Models.Menu> MenuList
         {
-            get { return productsList; }
-            set { productsList = value; OnPropertyChanged(nameof(ProductsList)); }
+            get { return menuList; }
+            set { menuList = value; OnPropertyChanged(nameof(MenuList)); }
         }
 
         private RelayCommand tableCommand;
@@ -237,12 +258,17 @@ namespace CoffeeBook.ViewModels
                     Status = 0,
                     CreatedBy = 1
                 };
-
-                billService.AddBill(i, p.Id, m.Count);
+                if(MenuList.Count <= 0)
+                {
+                    billService.AddBill(i, p.Id, m.Count);
+                }
+                else
+                {
+                    billService.AddBillInfo(MenuList[0].Id, p.Id, m.Count);
+                }
 
                 tableService.UpdateTable(SelectedTable.Id, 1);
-                
-                ProductsList.Add(m);
+                LoadMenu(SelectedTable.Id);
 
                 LoadTable();
             }
@@ -262,7 +288,6 @@ namespace CoffeeBook.ViewModels
             }*/
         }
 
-
         private Models.Menu currentMenu;
         public Models.Menu CurrentMenu
         {
@@ -274,12 +299,21 @@ namespace CoffeeBook.ViewModels
             }
         }
 
+        private RelayCommand paymentCommand;
+        public RelayCommand PaymentCommand
+        {
+            get { return paymentCommand; }
+        }
 
-
-
-
-
-
+        public void Payment()
+        {
+            billService.Pay(MenuList[0].Id);
+            //LoadMenu(SelectedTable.Id);
+            MenuList = new ObservableCollection<Models.Menu>();
+            TotalMenu = "";
+            //Thread.Sleep(2000);
+            LoadTable();
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

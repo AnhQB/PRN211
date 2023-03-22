@@ -229,5 +229,7 @@ namespace CoffeeBook.ViewModels
                 }
             }
         }
+
+        
     }
 }

@@ -25,5 +25,10 @@ namespace CoffeeBook.Views
             InitializeComponent();
             DataContext = new GeneralViewModel();
         }
+
+        private void TextBox_ColorChanged(object sender, RoutedPropertyChangedEventArgs<Color> e)
+        {
+
+        }
     }
 }

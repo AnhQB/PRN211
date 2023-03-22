@@ -1,4 +1,5 @@
 ﻿using CoffeeBook.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -33,7 +34,7 @@ namespace CoffeeBook.DAOs
 
         public List<Table> LoadTableList()
         {
-            List<Table> tableList = context.Tables.ToList();
+            List<Table> tableList = context.Tables.AsNoTracking().ToList();
 
             return tableList;
         }

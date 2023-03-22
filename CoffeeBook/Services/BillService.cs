@@ -53,6 +53,7 @@ namespace CoffeeBook.DAOs
             {
                 list.Add(new Menu()
                 {
+                    Id = item.IdBill,
                     Count= item.Count,
                     Price = (float)item.IdProductNavigation.Price,
                     ProductName = item.IdProductNavigation.Name,
@@ -65,11 +66,45 @@ namespace CoffeeBook.DAOs
 
         }
 
-        public void AddBill(Bill i, int id, int count)
+        public void AddBill(Bill i, int proId, int count)
         {
             
             context.Bills.Add(i);
+            context.SaveChanges();
 
+            context.BillInfos.Add(new BillInfo { Count = count, IdBill = i.Id, IdProduct = proId });
+            context.SaveChanges();
+        }
+
+        internal void AddBillInfo(int idBill, int proId, int count)
+        {
+            BillInfo billInfo = context.BillInfos.FirstOrDefault(x => x.IdProduct == proId && x.IdBill == idBill);
+            if (billInfo == null)
+            {
+                context.BillInfos.Add(new BillInfo { Count = count, IdBill = idBill, IdProduct = proId });
+            }
+            else
+            {
+                billInfo.Count += count;
+                context.BillInfos.Update(billInfo);
+            }
+            context.SaveChanges();
+        }
+
+        internal void Pay(int id)
+        {
+            Bill bill = context.Bills.FirstOrDefault(x => x.Id == id);
+            if(bill != null)
+            {
+                bill.Status = 1;
+                bill.DateCheckOut = DateTime.Now;
+                context.Update(bill);
+
+                Table t = context.Tables.FirstOrDefault(x => x.Id == bill.IdTable);
+                t.Status = 0;
+                context.Update(t);
+                context.SaveChanges();
+            }
         }
     }
 }
