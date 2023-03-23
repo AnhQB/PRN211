@@ -142,7 +142,7 @@ namespace CoffeeBook.ViewModels
         {
             try
             {
-                if(currentAccount.Id > 0)
+                if(currentAccount.UserName != "")
                 {
                     currentAccount.Type = (byte)SelectedAccountTypeEnum;
                     var IsSaved = accountService.InsertAccount(currentAccount);

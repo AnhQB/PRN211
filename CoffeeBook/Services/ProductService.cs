@@ -50,8 +50,8 @@ namespace CoffeeBook.DAOs
             try
             {
 
-                context.Database.ExecuteSqlRaw("INSERT INTO Product (Name, IdCategory, Price) VALUES ( " + product.Name + ", " + product.IdCategory + ", " + product.Price + " );");
-
+                context.Database.ExecuteSqlRaw("INSERT INTO [dbo].[Product] ([Name] ,[IdCategory] ,[Price]) VALUES ('" + product.Name + "', " + product.IdCategory + ", " + product.Price + " );");
+                IsAdded = true;
             }
             catch (SqlException ex)
             {

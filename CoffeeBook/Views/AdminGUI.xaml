@@ -266,7 +266,7 @@
                              Text="{Binding Path=ProductViewModel.CurrentProduct.Name ,Mode=TwoWay}"          
                             />
 
-                        <Label Name="lbProductCat" Content="Product Name:"/>
+                        <Label Name="lbProductCat" Content="Category Name:"/>
 
                         <ComboBox Name="cbProductCategory"
                                       Style="{StaticResource MaterialDesignOutlinedComboBox}"

@@ -125,7 +125,7 @@ namespace CoffeeBook.ViewModels
         {
             try
             {
-                if( currentProduct.Name != "" && currentProduct.Id > 0
+                if( currentProduct.Name != ""
                     )
                 {
                     currentProduct.IdCategory = productService.GetCategoryID(currentProduct.IdCategory);
@@ -191,7 +191,7 @@ namespace CoffeeBook.ViewModels
             else s = SearchProductName;
             foreach (var product in productService.getListProduct())
             {
-                if (product.Name.Contains(s))
+                if (product.Name.ToLower().Contains(s))
                 {
                     ProductsList.Add(product);
                 }            

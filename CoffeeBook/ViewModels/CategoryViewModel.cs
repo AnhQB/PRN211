@@ -111,7 +111,7 @@ namespace CoffeeBook.ViewModels
         {
             try
             {
-                if (currentCategory.Name != "" && currentCategory.Id > 0)
+                if (currentCategory.Name != "")
                 {
                     var IsSaved = categoryService.InsertCategory(currentCategory.Name);
                     LoadData();
