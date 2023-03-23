@@ -138,7 +138,7 @@ namespace CoffeeBook.ViewModels
             else s = SearchCategorytName;
             foreach (var category in categoryService.getListCategory())
             {
-                if (category.Name.Contains(s))
+                if (category.Name.ToLower().Contains(s.ToLower()))
                 {
                     CategoryList.Add(category);
                 }

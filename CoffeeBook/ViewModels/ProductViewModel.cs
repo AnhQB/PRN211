@@ -191,7 +191,7 @@ namespace CoffeeBook.ViewModels
             else s = SearchProductName;
             foreach (var product in productService.getListProduct())
             {
-                if (product.Name.ToLower().Contains(s))
+                if (product.Name.ToLower().Contains(s.ToLower()))
                 {
                     ProductsList.Add(product);
                 }            
@@ -202,8 +202,7 @@ namespace CoffeeBook.ViewModels
         {
             try
             {
-                if (currentProduct.Name != null && currentProduct.IdCategory != null && currentProduct.Price != null)
-                {
+
                     Product product = productService.GetProductById(productId);
                     var IsSaved = productService.DeleteProduct(product);
                     LoadData();
@@ -211,11 +210,6 @@ namespace CoffeeBook.ViewModels
                         Message = "Delete successful";
                     else
                         Message = "Delete failed";
-                }
-                else
-                {
-                    Message = "Select Product Please";
-                }
                     
             }
             catch (Exception ex)
