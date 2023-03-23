@@ -23,6 +23,19 @@ namespace CoffeeBook.ViewModels
 {
     public class GeneralViewModel : INotifyPropertyChanged
     {
+        private string message;
+        public string Message
+        {
+            get { return message; }
+            set
+            {
+                message = value;
+                OnPropertyChanged();
+                MessageBox.Show(message, "Warning");
+            }
+        }
+
+
         TableService tableService;
         BillService billService;
         CategoryService categoryService;
@@ -41,7 +54,14 @@ namespace CoffeeBook.ViewModels
         }
         public GeneralViewModel()
         {
+            username = Settings.Username;
             listTableProduct = new Dictionary<int, ObservableCollection<Models.Menu>>();
+            selectedCategory = new Category();
+            selectedProduct = new Product();
+            currentMenu = new Models.Menu();
+            _selectedTable = new TableDTO();
+
+
             tableService = new TableService();
             billService = new BillService();
             categoryService = new CategoryService();
@@ -51,17 +71,32 @@ namespace CoffeeBook.ViewModels
             paymentCommand = new RelayCommand(Payment);
             accountCommand = new RelayCommand(AccountInfor);
             logoutCommand = new RelayCommand(Logout);
+            manageCommand = new RelayCommand(Manage);
 
             listCategory = new List<Category>();
             listProduct = new List<Product>();
 
             LoadTable();
             ButtonClickCommand = new RelayCommand<TableDTO>(ButtonClick);
-            currentMenu = new Models.Menu();
+            
             menuList = new ObservableCollection<Models.Menu>();
             LoadCategory();
             LoadProduct(null);
+            isVisibility = true;
+            if(Settings.Type != 0)
+            {
+                isVisibility = false;
+            }
+
         }
+
+        private bool isVisibility;
+        public bool IsVisibility
+        {
+            get { return isVisibility; }
+            set { isVisibility = value; OnPropertyChanged(nameof(IsVisibility)); }
+        }
+
 
         private void LoadTable()
         {
@@ -114,9 +149,9 @@ namespace CoffeeBook.ViewModels
             set
             {
                 listProduct = value; OnPropertyChanged(nameof(ListProduct));
+                
             }
         }
-
 
         public Product selectedProduct;
         public Product SelectedProduct
@@ -235,6 +270,17 @@ namespace CoffeeBook.ViewModels
             }
         }
 
+        private string username;
+        public string Username
+        {
+            get { return username; }
+            set
+            {
+                username = value;
+                OnPropertyChanged(nameof(Username));
+            }
+        }
+
 
         private RelayCommand saveCommand;
         public RelayCommand SaveCommand
@@ -246,7 +292,19 @@ namespace CoffeeBook.ViewModels
         {
             if(SelectedTable == null || SelectedTable.Id <= 0)
             {
-                MessageBox.Show("Select Table, please", "Warning");
+                Message = "Select Table, please";
+            }
+            else if(selectedCategory.Id <= 0)
+            {
+                Message = "Select Category pls!";
+            }
+            else if (selectedProduct.Id <= 0)
+            {
+                Message = "Select Product pls!";
+            }
+            else if (currentMenu.Count <= 0)
+            {
+                Message = "Input quantity pls!";
             }
             else
             {
@@ -352,13 +410,27 @@ namespace CoffeeBook.ViewModels
             Settings.CloseWin("GeneralManagementGUI");
         }
 
+
+
+        private RelayCommand manageCommand;
+        public RelayCommand ManageCommand
+        {
+            get { return manageCommand; }
+        }
+
+        public void Manage()
+        {
+
+            AdminGUI adminGUI = new AdminGUI();
+            adminGUI.Show();
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
 
     }
 

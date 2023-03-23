@@ -6,6 +6,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Input;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
@@ -13,6 +14,19 @@ namespace CoffeeBook.ViewModels
 {
     public class CategoryViewModel : INotifyPropertyChanged
     {
+
+        private string message;
+        public string Message
+        {
+            get { return message; }
+            set
+            {
+                message = value;
+                OnPropertyChanged();
+                MessageBox.Show(message, "Warning");
+            }
+        }
+
         CategoryService categoryService;
 
         private Category currentCategory;
@@ -95,10 +109,9 @@ namespace CoffeeBook.ViewModels
 
         private void Save()
         {
-            String Message;
             try
             {
-                if (currentCategory.Name != null)
+                if (currentCategory.Name != "" && currentCategory.Id > 0)
                 {
                     var IsSaved = categoryService.InsertCategory(currentCategory.Name);
                     LoadData();
@@ -107,7 +120,7 @@ namespace CoffeeBook.ViewModels
                     else
                         Message = "Add failed";
                 }
-                else Message = "Input null";
+                else Message = "Input ple";
             }
             catch (Exception ex)
             {
@@ -134,9 +147,9 @@ namespace CoffeeBook.ViewModels
 
         private void delete(int categoryId)
         {
-            String Message;
             try
             {
+                
                 Category category = categoryService.GetCategoryById(categoryId);
                 var IsSaved = categoryService.DeleteCategory(category.Name);
                 LoadData();
@@ -144,6 +157,8 @@ namespace CoffeeBook.ViewModels
                     Message = "Delete successful";
                 else
                     Message = "Delete failed";
+             
+                    
             }
             catch (Exception ex)
             {
@@ -153,15 +168,22 @@ namespace CoffeeBook.ViewModels
 
         private void Update()
         {
-            String Message;
             try
             {
-                var IsSaved = categoryService.UpdateCategory(currentCategory);
-                LoadData();
-                if (IsSaved)
-                    Message = "Product saved";
+                if (currentCategory.Name != "" && currentCategory.Id > 0 )
+                {
+                    var IsSaved = categoryService.UpdateCategory(currentCategory);
+                    LoadData();
+                    if (IsSaved)
+                        Message = "Product saved";
+                    else
+                        Message = "Update failed";
+                }
                 else
-                    Message = "Update failed";
+                {
+                    Message = "Select And Input Please";
+                }
+                    
 
             }
             catch (Exception ex)

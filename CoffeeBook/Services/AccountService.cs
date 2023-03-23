@@ -212,6 +212,35 @@ namespace CoffeeBook.DAOs
             return isUpdated;
         }
 
+        public List<AccountDTO> SearchAccountByUserName(string username)
+        {
+            //return DataProvider.Instance.ExecuteQuery("SELECT UserName, DisplayName, Type FROM Account");
+
+            List<AccountDTO> objAccountList = new List<AccountDTO>();
+            try
+            {
+                var ObjQuery = context.Accounts
+                    .Where(x => x.UserName.Contains(username))
+                    .ToList();
+                foreach (var account in ObjQuery)
+                {
+                    objAccountList.Add(new AccountDTO
+                    {
+                        Id = account.Id,
+                        UserName = account.UserName,
+                        DisplayName = account.DisplayName,
+                        Type = account.Type,
+                        TypeStr = account.Type.Equals((byte)AccountTypeEnum.Admin) ? "Admin" : "Staff"
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return objAccountList;
+        }
+
         /*public Account GetAccountById(int id)
         {
             try

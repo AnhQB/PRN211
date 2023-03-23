@@ -41,13 +41,19 @@
                         <ColumnDefinition Width="150"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" VerticalAlignment="Center" FontSize="15">From :</TextBlock>
-                    <DatePicker Grid.Column="1" Style="{StaticResource MaterialDesignOutlinedDatePicker}" Grid.ColumnSpan="4" />
+                    <DatePicker Grid.Column="1" Style="{StaticResource MaterialDesignOutlinedDatePicker}" Grid.ColumnSpan="4"
+                                Text="{Binding TurnOverViewModel.FromDate,Mode=TwoWay}"
+                                />
                     <TextBlock Grid.Column="5" VerticalAlignment="Center" FontSize="15" Margin="8,0,0,0">To :</TextBlock>
-                    <DatePicker Grid.Column="6" Style="{StaticResource MaterialDesignOutlinedDatePicker }" />
+                    <DatePicker Grid.Column="6" Style="{StaticResource MaterialDesignOutlinedDatePicker }"
+                                 Text="{Binding TurnOverViewModel.ToDate, Mode=TwoWay}"
+                                />
                     <Button
                         Grid.Column="7" Margin="8,1,8,1" Height="48"
                         Style="{StaticResource MaterialDesignRaisedAccentButton}"
-                        materialDesign:ShadowAssist.ShadowAnimationDuration="0:0:0">
+                        materialDesign:ShadowAssist.ShadowAnimationDuration="0:0:0"
+                        Command="{Binding TurnOverViewModel.SearchCommand}"
+                        >
                         Search
                     </Button>
 
@@ -65,8 +71,8 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <Button x:Name="btnDelete" Content="Delete"
-                                                                Command="{Binding DataContext.AccountViewModel.DeleteCommand, ElementName=lvAccount}"
+                                                    <Button x:Name="btnDelete" Content="Detail"
+                                                                Command="{Binding DataContext.TurnOverViewModel.DetailCommand, ElementName=lvAccount}"
                                                                 CommandParameter="{Binding Id}"
                                                             ></Button>
                                                 </StackPanel>
@@ -294,8 +300,9 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBox Grid.Column="4" Margin="30 0"
-                              MaxLength="12"
-                              materialDesign:TransitionAssist.DisableTransitions="True" />
+                              materialDesign:TransitionAssist.DisableTransitions="True" 
+                                 Text="{Binding AccountViewModel.SearchAccount}"
+                                 />
                     </Grid>
                     <Grid Grid.Row="1" Margin="0 10">
                         <Grid.ColumnDefinitions >

@@ -1,0 +1,32 @@
+﻿<Window x:Class="CoffeeBook.Views.BillInforGUI"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:CoffeeBook.Views"
+        mc:Ignorable="d"
+        Title="Bill Infor" Height="450" Width="500">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="{Binding IdBill}"/>
+        <ListView Grid.Row="1"   ItemsSource="{Binding BillInforList}" Name="lvTurnOver">
+            <ListView.View>
+                <GridView>
+                    <GridView.Columns>
+                        <GridViewColumn Header="Product Name" DisplayMemberBinding="{Binding IdProductNavigation.Name}"></GridViewColumn>
+                        <GridViewColumn Header="Count" DisplayMemberBinding="{Binding Count}"></GridViewColumn>
+                        <GridViewColumn Header="Product Price" DisplayMemberBinding="{Binding IdProductNavigation.Price}"></GridViewColumn>
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <TextBlock Grid.Row="2" Text="{Binding TotalPrice}"/>
+    </Grid>
+</Window>

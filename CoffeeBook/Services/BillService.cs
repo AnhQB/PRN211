@@ -21,21 +21,40 @@ namespace CoffeeBook.DAOs
 
         public List<Bill> getListBill()
         {
-            //return DataProvider.Instance.ExecuteQuery("SELECT UserName, DisplayName, Type FROM Account");
 
             List<Bill> objAccountList = new List<Bill>();
-            //try
-            //{
-            //    objAccountList = context.Bills
-            //        .Include(b => b.IdTableNavigation)
-            //        .Include(b => b.CreatedByNavigation)
-            //        .ToList();
-                  
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw ex;
-            //}
+            try
+            {
+                objAccountList = context.Bills
+                    .Include(b => b.IdTableNavigation)
+                    .Include(b => b.CreatedByNavigation)
+                    .ToList();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return objAccountList;
+        }
+
+        public List<Bill> getListBill(string fromDate, string toDate)
+        {
+            DateTime from = DateTime.Parse(fromDate);
+            DateTime to = DateTime.Parse(toDate);
+            List<Bill> objAccountList = new List<Bill>();
+            try
+            {
+                objAccountList = context.Bills
+                    .Include(b => b.IdTableNavigation)
+                    .Include(b => b.CreatedByNavigation)
+                    .Where(b => b.DateCheckIn >= from && b.DateCheckIn <= to)
+                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
             return objAccountList;
         }
 
@@ -105,6 +124,16 @@ namespace CoffeeBook.DAOs
                 context.Update(t);
                 context.SaveChanges();
             }
+        }
+
+        public List<BillInfo> GetBillInfos(int idBill)
+        {
+            List<BillInfo> list = context.BillInfos
+                .Include(x => x.IdBillNavigation)
+                .Include(x => x.IdProductNavigation)
+                .Where(x => x.IdBill == idBill)
+                .ToList();
+            return list;
         }
     }
 }

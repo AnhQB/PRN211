@@ -12,6 +12,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
@@ -19,6 +20,18 @@ namespace CoffeeBook.ViewModels
 {
     public class ProductViewModel : INotifyPropertyChanged
     {
+        private string message;
+        public string Message
+        {
+            get { return message; }
+            set
+            {
+                message = value;
+                OnPropertyChanged();
+                MessageBox.Show(message, "Warning");
+            }
+        }
+
         ProductService productService;
 
         CategoryService categoryService;
@@ -110,10 +123,10 @@ namespace CoffeeBook.ViewModels
 
         private void Save()
         {
-            String Message;
             try
             {
-                if(currentProduct.Name != null && currentProduct.IdCategory != null && currentProduct.Price != null)
+                if( currentProduct.Name != "" && currentProduct.Id > 0
+                    )
                 {
                     currentProduct.IdCategory = productService.GetCategoryID(currentProduct.IdCategory);
                     currentProduct.IdCategoryNavigation = categoryService.GetCategoryById(currentProduct.IdCategory);
@@ -123,6 +136,10 @@ namespace CoffeeBook.ViewModels
                         Message = "Product saved";
                     else
                         Message = "Add failed";
+                }
+                else
+                {
+                    Message = "Selected and Input Please";
                 }            
             }
             catch (Exception ex)
@@ -142,15 +159,22 @@ namespace CoffeeBook.ViewModels
 
         private void Update()
         {
-            String Message;
             try
-            {                  
+            {
+                if (currentProduct.Name != "" && currentProduct.Id > 0)
+                {
                     var IsSaved = productService.UpdateData(currentProduct);
                     LoadData();
                     if (IsSaved)
                         Message = "Product saved";
                     else
                         Message = "Update failed";
+                }
+                else
+                {
+                    Message = "Select and Input Please";
+                }
+                    
 
             }
             catch (Exception ex)
@@ -176,16 +200,23 @@ namespace CoffeeBook.ViewModels
 
         private void Delete(int productId)
         {
-            String Message;
             try
             {
-                Product product = productService.GetProductById(productId);
-                var IsSaved = productService.DeleteProduct(product);
-                LoadData();
-                if (IsSaved)
-                    Message = "Delete successful";
+                if (currentProduct.Name != null && currentProduct.IdCategory != null && currentProduct.Price != null)
+                {
+                    Product product = productService.GetProductById(productId);
+                    var IsSaved = productService.DeleteProduct(product);
+                    LoadData();
+                    if (IsSaved)
+                        Message = "Delete successful";
+                    else
+                        Message = "Delete failed";
+                }
                 else
-                    Message = "Delete failed";
+                {
+                    Message = "Select Product Please";
+                }
+                    
             }
             catch (Exception ex)
             {

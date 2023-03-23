@@ -28,7 +28,12 @@ namespace CoffeeBook.ViewModels
         public string Message
         {
             get { return message; }
-            set { message = value; OnPropertyChanged(); }
+            set
+            {
+                message = value;
+                OnPropertyChanged();
+                MessageBox.Show(message, "Warning");
+            }
         }
         public AccountViewModel()
         {
@@ -45,6 +50,7 @@ namespace CoffeeBook.ViewModels
             SelectedAccountType = AccountTypeCombos[1];
 
             LoadData();
+            currentAccount = new AccountDTO();
             //CurrentAccount = new AccountDTO();
             saveCommand = new RelayCommand(Save);
             deleteCommand = new RelayCommand<int>(Delete);
@@ -136,13 +142,21 @@ namespace CoffeeBook.ViewModels
         {
             try
             {
-                currentAccount.Type = (byte)SelectedAccountTypeEnum;
-                var IsSaved = accountService.InsertAccount(currentAccount);
-                LoadData();
-                if (IsSaved)
-                    Message = "Employee saved";
+                if(currentAccount.Id > 0)
+                {
+                    currentAccount.Type = (byte)SelectedAccountTypeEnum;
+                    var IsSaved = accountService.InsertAccount(currentAccount);
+                    LoadData();
+                    if (IsSaved)
+                        Message = "Account saved";
+                    else
+                        Message = "Save account failed";
+                }
                 else
-                    Message = "Save operation failed";
+                {
+                    Message = "Select Account Please";
+                }
+                
             }
             catch (Exception ex)
             {
@@ -159,13 +173,12 @@ namespace CoffeeBook.ViewModels
         {
             try
             {
-
                 Account user = accountService.GetAccountById(accountId);
 
                 var IsSaved = accountService.DeleteAccount(user);
                 LoadData();
                 if (IsSaved)
-                    Message = "Employee saved";
+                    Message = "Account deleted";
                 else
                     Message = "Save operation failed";
             }
@@ -185,14 +198,22 @@ namespace CoffeeBook.ViewModels
         {
             try
             {
-                currentAccount.Type = (byte)SelectedAccountTypeEnum;
-                Account user = accountMapper(currentAccount);
-                var IsSaved = accountService.UpdateAccount(user, currentAccount.NewPass);
-                LoadData();
-                if (IsSaved)
-                    Message = "Employee saved";
+                if(currentAccount.Id > 0)
+                {
+                    currentAccount.Type = (byte)SelectedAccountTypeEnum;
+                    Account user = accountMapper(currentAccount);
+                    var IsSaved = accountService.UpdateAccount(user, currentAccount.NewPass);
+                    LoadData();
+                    if (IsSaved)
+                        Message = "Account saved";
+                    else
+                        Message = "Update operation failed";
+                }
                 else
-                    Message = "Save operation failed";
+                {
+                    Message = "Select Account Pls";
+                }
+                
             }
             catch (Exception ex)
             {
@@ -230,6 +251,16 @@ namespace CoffeeBook.ViewModels
             }
         }
 
-        
+        private string searchAccount;
+        public string SearchAccount
+        {
+            get { return searchAccount; }
+            set
+            {
+                searchAccount = value;
+                OnPropertyChanged(nameof(SearchAccount));
+                AccountsList = new ObservableCollection<AccountDTO>(accountService.SearchAccountByUserName(searchAccount));
+            }
+        }
     }
 }

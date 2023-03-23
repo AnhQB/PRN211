@@ -14,7 +14,7 @@
         </Grid.RowDefinitions>
         <Menu Grid.Row="0" Height="50">
             <MenuItem
-                Header="Admin"
+                Header="{Binding Username}"
                 Background="{DynamicResource PrimaryHueMidBrush}"
                 Foreground="{DynamicResource PrimaryHueMidForegroundBrush}">
                 <MenuItem
@@ -29,11 +29,12 @@
                  Foreground="{DynamicResource SecondaryHueMidForegroundBrush}"
                     Command="{Binding LogoutCommand}"/>
             </MenuItem>
-            <MenuItem
-                Header="Account Information (Admin)"
+            <MenuItem Visibility="{Binding IsVisibility, Converter={StaticResource BooleanToVisibilityConverter}}"
+                Header="Manage (Admin)"
                 Background="{DynamicResource PrimaryHueMidBrush}"
-                Foreground="{DynamicResource PrimaryHueMidForegroundBrush}">
-            </MenuItem>
+                Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
+                 Command="{Binding ManageCommand}"
+                />
             <ListBox/>
         </Menu>
         <Grid Grid.Row="1" Height="470">
@@ -106,27 +107,23 @@
                 </StackPanel>
                 <Grid Grid.Row="1" >
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <DockPanel Grid.Column="0" Margin="20 0">
-                        <TextBlock DockPanel.Dock="Top"  Grid.Column="0" Height="30" Width="80" 
-                                   Text="Discount" TextAlignment="Center" FontSize="18" FontWeight="Bold"></TextBlock>
-                        <TextBox Grid.Column="1" Height="30" Width="80"  
-                                 Text="0" TextAlignment="Center" FontSize="18"></TextBox>
-                    </DockPanel>
-                    <TextBox  Grid.Column="1" Height="30" Width="80" 
+                    
+                    <TextBlock  Grid.Column="0" Height="30" Width="250" 
                                 TextAlignment="Center" FontSize="18" FontWeight="Bold"
                                 Text="{Binding TotalMenu,Mode=OneWay}" 
+                                Margin="5 0"
                                 />
-                    <Button Margin="10 0" Height="30" Grid.Column="2"
+                    <Button Margin="10 0" Height="30" Grid.Column="1"
                         Style="{StaticResource MaterialDesignFlatSecondaryMidBgButton}"
                         ToolTip="MaterialDesignFlatAccentBackgroundButton"
                         Content="Pay"
                         Command="{Binding PaymentCommand}"
                         IsEnabled="{Binding DataContext.ControlsEnabled, 
-                        RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" />
+                        RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" 
+                            Width="140" />
                 </Grid>
             </Grid>
             
