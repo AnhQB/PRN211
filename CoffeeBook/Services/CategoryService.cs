@@ -20,7 +20,12 @@ namespace CoffeeBook.DAOs
 		public Category GetCategoryByName(string Name)
 		{
 
-			Category? category = context.Categories.Find(Name);
+			Category? category = context.Categories.FirstOrDefault(u => u.Name.Equals(Name));
+            return category;
+		}
+		public Category GetCategoryById(int Id)
+		{
+			Category? category = context.Categories.FirstOrDefault(x => x.Id.Equals(Id));
 			return category;
 		}
 		public bool UpdateAccount(string Name)
@@ -95,18 +100,15 @@ namespace CoffeeBook.DAOs
             return result > 0;*/
 		}
 
-		public bool UpdateCategory(string name)
+		public bool UpdateCategory(Category c)
 		{
-			/*string query = string.Format("UPDATE Account SET DisplayName = N'{1}', Type = {2} WHERE UserName = N'{0}'", name, displayName, type);
-            int result = DataProvider.Instance.ExecuteNonQuery(query);
-
-            return result > 0;*/
 
 			bool isUpdated = false;
 			try
 			{
-				var category = GetCategoryByName(name);
-				
+				var ob = context.Categories.FirstOrDefault(x => x.Id == c.Id);
+				ob.Name = c.Name;
+				context.Categories.Update(ob);
 				var NoOfRowsAffected = context.SaveChanges();
 				isUpdated = NoOfRowsAffected > 0;
 			}
@@ -114,7 +116,6 @@ namespace CoffeeBook.DAOs
 			{
 				throw ex;
 			}
-			//int result = DataProvider.Instance.ExecuteNonQuery("exec USP_UpdateAccount @userName , @displayName , @password , @newPassword", new object[] { userName, displayName, pass, newPass });
 			return isUpdated;
 		}
 
