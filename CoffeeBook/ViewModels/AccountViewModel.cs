@@ -201,7 +201,14 @@ namespace CoffeeBook.ViewModels
                 if(currentAccount.Id > 0)
                 {
                     currentAccount.Type = (byte)SelectedAccountTypeEnum;
-                    Account user = accountMapper(currentAccount);
+
+                    Account user = new Account
+                    {
+                        UserName = currentAccount.UserName,
+                        Id = currentAccount.Id,
+                        DisplayName = currentAccount.DisplayName,
+                        Type = byte.Parse (selectedAccountType.Value),
+                    };
                     var IsSaved = accountService.UpdateAccount(user, currentAccount.NewPass);
                     LoadData();
                     if (IsSaved)

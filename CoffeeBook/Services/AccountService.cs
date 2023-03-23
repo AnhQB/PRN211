@@ -62,8 +62,17 @@ namespace CoffeeBook.DAOs
             try
             {
                 var account1 = GetAccountById(account.Id);
-                account1.DisplayName = account.DisplayName;
-                account1.PassWord = newPass;
+                if(account.DisplayName != "")
+                {
+                    account1.DisplayName = account.DisplayName;
+                }
+
+                if(newPass != null)
+                {
+                    account1.PassWord = newPass;
+                }
+                account1.Type = account.Type;
+                context.Update(account1);
                 var NoOfRowsAffected = context.SaveChanges();
                 isUpdated = NoOfRowsAffected > 0;
             }
