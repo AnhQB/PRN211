@@ -77,7 +77,7 @@ namespace CoffeeBook.ViewModels
                 Settings.Id = a.Id + "";
                 Settings.Type = a.Type;
                 //Application.Current.MainWindow.Close();
-                Login l = new Login();
+                Settings.CloseWin("Login");
                 
                 GeneralManagementGUI genGUI = new GeneralManagementGUI();
                 genGUI.Show();

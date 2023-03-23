@@ -54,6 +54,10 @@ namespace CoffeeBook.DAOs
 
         public bool UpdateAccount(Account account, string newPass)
         {
+            if (GetAnotherAccountByUserName(account) != null)
+            {
+                throw new ArgumentException("Username is already exist!");
+            }
             bool isUpdated = false;
             try
             {
@@ -100,8 +104,11 @@ namespace CoffeeBook.DAOs
 
         public bool InsertAccount(AccountDTO account)
         {
+            Account a = new Account();
+            a.Id = account.Id;
+            a.UserName = account.UserName;
             bool IsAdded = false;
-            if (GetAccountByUserName(account.UserName) != null)
+            if (GetAnotherAccountByUserName(a) != null)
             {
                 throw new ArgumentException("Username is already exist!");
             }
@@ -137,7 +144,8 @@ namespace CoffeeBook.DAOs
             return result > 0;*/
 
             bool isUpdated = false;
-            if (GetAnotherAccountByUserName(accountParam) != null)
+            var a = GetAnotherAccountByUserName(accountParam);
+            if (a != null)
             {
                 throw new ArgumentException("Username is already exist!");
             }
@@ -145,7 +153,10 @@ namespace CoffeeBook.DAOs
             {
                 var account = GetAccountById(accountParam.Id);
                 account.DisplayName = accountParam.DisplayName;
+                account.UserName = accountParam.UserName;
                 account.Type = accountParam.Type;
+                account.PassWord = accountParam.PassWord;
+                context.Update(account);
                 var NoOfRowsAffected = context.SaveChanges();
                 isUpdated = NoOfRowsAffected > 0;
             }

@@ -17,9 +17,9 @@
         </TextBox>
         <TextBox
             x:Name="PassWord"
-            materialDesign:HintAssist.Hint="Password" Margin="329,194,217,220" FontSize="12" Text="{Binding Account.PassWord, Mode=TwoWay}"/>
-        <PasswordBox MinWidth="72" Margin="329,250,217,164" FontSize="16"/>
-        <PasswordBox MinWidth="72" Margin="329,306,217,108" FontSize="18"/>
+            materialDesign:HintAssist.Hint="Password" Margin="329,194,217,220" FontSize="12" Text="{Binding Account.Pass, Mode=TwoWay}"/>
+        <TextBox MinWidth="72" Margin="329,250,217,164" FontSize="16" Text="{Binding Account.NewPass, Mode=TwoWay}"/>
+        <TextBox MinWidth="72" Margin="329,306,217,108" FontSize="18" Text="{Binding Account.RePass, Mode=TwoWay}"/>
         <Label Content="User Name" HorizontalAlignment="Left" Margin="128,71,0,0" VerticalAlignment="Top" Height="23" Width="113" FontSize="12"/>
         <Label Content="Display Name" HorizontalAlignment="Left" Margin="128,133,0,0" VerticalAlignment="Top" Width="113" FontSize="12"/>
         <Label Content="Password" HorizontalAlignment="Left" Margin="128,190,0,0" VerticalAlignment="Top" Width="113" FontSize="12"/>

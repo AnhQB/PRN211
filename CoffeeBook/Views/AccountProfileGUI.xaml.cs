@@ -24,7 +24,7 @@ namespace CoffeeBook.Views
         public AccountProfileGUI()
         {
             InitializeComponent();
-            DataContext = new ProfileViewModel(1);
+            DataContext = new ProfileViewModel();
         }
     }
 }

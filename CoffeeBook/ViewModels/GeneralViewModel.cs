@@ -1,6 +1,8 @@
 ﻿using CoffeeBook.DAOs;
 using CoffeeBook.DTOs;
 using CoffeeBook.Models;
+using CoffeeBook.Views;
+using DataAccess;
 using MVVMEmployee.Commands;
 using System;
 using System.Collections.Generic;
@@ -47,6 +49,8 @@ namespace CoffeeBook.ViewModels
 
             saveCommand = new RelayCommand(Save);
             paymentCommand = new RelayCommand(Payment);
+            accountCommand = new RelayCommand(AccountInfor);
+            logoutCommand = new RelayCommand(Logout);
 
             listCategory = new List<Category>();
             listProduct = new List<Product>();
@@ -313,6 +317,39 @@ namespace CoffeeBook.ViewModels
             TotalMenu = "";
             //Thread.Sleep(2000);
             LoadTable();
+        }
+
+
+        private RelayCommand accountCommand;
+        public RelayCommand AccountCommand
+        {
+            get { return accountCommand; }
+        }
+
+        public void AccountInfor()
+        {
+
+            AccountProfileGUI profileGUI = new AccountProfileGUI();
+            profileGUI.Show();
+        }
+
+        private RelayCommand logoutCommand;
+        public RelayCommand LogoutCommand
+        {
+            get { return logoutCommand; }
+        }
+
+        public void Logout()
+        {
+
+            Settings.Username = "";
+            Settings.Id = "";
+            Settings.Type = 0;
+
+            Login login = new Login();
+            login.Show();
+
+            Settings.CloseWin("GeneralManagementGUI");
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

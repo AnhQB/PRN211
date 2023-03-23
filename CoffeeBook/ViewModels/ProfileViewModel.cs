@@ -1,6 +1,7 @@
 ﻿using CoffeeBook.DAOs;
 using CoffeeBook.DTOs;
 using CoffeeBook.Models;
+using DataAccess;
 using Microsoft.IdentityModel.Abstractions;
 using MVVMEmployee.Commands;
 using System;
@@ -17,7 +18,7 @@ namespace CoffeeBook.ViewModels
 {
     public class ProfileViewModel : INotifyPropertyChanged
     {
-        private Account account;
+        
         AccountService accountService;
         private RelayCommand updateCommand;
         private RelayCommand closeCommand;
@@ -29,10 +30,10 @@ namespace CoffeeBook.ViewModels
             set { message = value; OnPropertyChanged(); }
         }
 
-        public ProfileViewModel(int id)
+        public ProfileViewModel()
         {
             accountService = new AccountService();
-            loadData(id);
+            loadData(int.Parse(Settings.Id));
             updateCommand = new RelayCommand(Update);
             closeCommand = new RelayCommand(Close);
         }
@@ -43,7 +44,8 @@ namespace CoffeeBook.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public Account Account
+        private AccountDTO account;
+        public AccountDTO Account
         {
             get { return account; }
             set { account = value; OnPropertyChanged(); }
@@ -62,20 +64,45 @@ namespace CoffeeBook.ViewModels
         // load view
         void loadData(int id)
         {
-            account = accountService.GetAccountById(id);
+            Account account1 = accountService.GetAccountById(id);
+            account = new AccountDTO { 
+                Id = account1.Id,
+                UserName = account1.UserName,
+                DisplayName = account1.DisplayName,
+                Type = account1.Type,
+                Pass = account1.PassWord,
+                TypeStr = account1.GetTypeStr()
+            };
         }
 
         // update
         void Update()
         {
-            var a = accountService.UpdateAccount(account);
-            if (!a) MessageBox.Show("UserName is existed try another!");
-            else MessageBox.Show("Update Success");
+            if (account.NewPass.Equals(account.RePass))
+            {
+
+                Account a = new Account
+                {
+                    Id = Account.Id,
+                    UserName = Account.UserName,
+                    DisplayName = Account.DisplayName,
+                    Type = Account.Type,
+                    PassWord = Account.Pass
+                };
+                bool result = accountService.UpdateAccount(a, account.NewPass);
+                if (result == false) MessageBox.Show("UserName is existed try another!");
+                else MessageBox.Show("Update Success");
+                loadData(int.Parse(Settings.Id));
+            }
+            else
+            {
+                MessageBox.Show("New Pass not equal repass");
+            }
         }
 
         void Close()
         {
-            Application.Current.MainWindow.Close();
+            Settings.CloseWin("AccountProfileGUI");
         }
     }
 }

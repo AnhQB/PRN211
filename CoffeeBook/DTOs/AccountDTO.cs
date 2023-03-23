@@ -17,6 +17,9 @@ namespace CoffeeBook.DTOs
 
         public string TypeStr { get; set; }
 
+        public string Pass { get; set; }
+
         public string NewPass { get; set; }
+        public string RePass { get; set; }
     }
 }
