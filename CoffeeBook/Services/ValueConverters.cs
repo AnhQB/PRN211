@@ -14,7 +14,7 @@ namespace CoffeeBook.Services
         {  
             if (int.Parse(value.ToString()) == 0)  
             {  
-                return null;  
+                return "";  
             }  
             else  
             {  

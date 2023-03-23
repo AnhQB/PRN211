@@ -246,7 +246,7 @@ namespace CoffeeBook.ViewModels
             }
             else
             {
-                Product p = productService.getProductId(selectedProduct.Id);
+                Product p = productService.GetProductById(selectedProduct.Id);
                 Category c = categoryService.getCategoryId(selectedCategory.Id);
                 Models.Menu m = CurrentMenu;
                 m.ProductName = p.Name;

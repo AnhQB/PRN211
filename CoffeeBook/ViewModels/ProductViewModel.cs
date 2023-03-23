@@ -113,14 +113,17 @@ namespace CoffeeBook.ViewModels
             String Message;
             try
             {
-                currentProduct.IdCategory = productService.GetCategoryID(currentProduct.IdCategory);
-                currentProduct.IdCategoryNavigation = categoryService.GetCategoryById(currentProduct.IdCategory);
-                var IsSaved = productService.InsertData(currentProduct);              
-                LoadData();
-                if (IsSaved)
-                    Message = "Product saved";
-                else
-                    Message = "Add failed";
+                if(currentProduct.Name != null && currentProduct.IdCategory != null && currentProduct.Price != null)
+                {
+                    currentProduct.IdCategory = productService.GetCategoryID(currentProduct.IdCategory);
+                    currentProduct.IdCategoryNavigation = categoryService.GetCategoryById(currentProduct.IdCategory);
+                    var IsSaved = productService.InsertData(currentProduct);
+                    LoadData();
+                    if (IsSaved)
+                        Message = "Product saved";
+                    else
+                        Message = "Add failed";
+                }            
             }
             catch (Exception ex)
             {
@@ -159,9 +162,12 @@ namespace CoffeeBook.ViewModels
         private void Search()
         {
             ProductsList.Clear();
+            String s ;
+            if (SearchProductName == null) s = "";
+            else s = SearchProductName;
             foreach (var product in productService.getListProduct())
             {
-                if (product.Name.Contains(SearchProductName))
+                if (product.Name.Contains(s))
                 {
                     ProductsList.Add(product);
                 }            
@@ -177,9 +183,9 @@ namespace CoffeeBook.ViewModels
                 var IsSaved = productService.DeleteProduct(product);
                 LoadData();
                 if (IsSaved)
-                    Message = "Employee saved";
+                    Message = "Delete successful";
                 else
-                    Message = "Save operation failed";
+                    Message = "Delete failed";
             }
             catch (Exception ex)
             {

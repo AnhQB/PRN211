@@ -24,18 +24,18 @@ namespace CoffeeBook.DAOs
             //return DataProvider.Instance.ExecuteQuery("SELECT UserName, DisplayName, Type FROM Account");
 
             List<Bill> objAccountList = new List<Bill>();
-            try
-            {
-                objAccountList = context.Bills
-                    .Include(b => b.IdTableNavigation)
-                    .Include(b => b.CreatedByNavigation)
-                    .ToList();
+            //try
+            //{
+            //    objAccountList = context.Bills
+            //        .Include(b => b.IdTableNavigation)
+            //        .Include(b => b.CreatedByNavigation)
+            //        .ToList();
                   
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw ex;
+            //}
             return objAccountList;
         }
 

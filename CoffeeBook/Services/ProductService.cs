@@ -49,10 +49,9 @@ namespace CoffeeBook.DAOs
 
             try
             {
-                context.Products.Add(product);
-                //var NoOfRowsAffected = context.SaveChanges();
-                //IsAdded = NoOfRowsAffected > 0;
-                context.SaveChanges();
+
+                context.Database.ExecuteSqlRaw("INSERT INTO Product (Name, IdCategory, Price) VALUES ( " + product.Name + ", " + product.IdCategory + ", " + product.Price + " );");
+
             }
             catch (SqlException ex)
             {

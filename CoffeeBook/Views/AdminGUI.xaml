@@ -102,24 +102,30 @@
                             Grid.Column="0"
                           Style="{StaticResource MaterialDesignPaperButton}"
                           ToolTip="Resource name: MaterialDesignPaperButton"
-                          Content="ADD"/>
+                          Content="ADD"
+                          Command="{Binding Path=CategoryViewModel.SaveCategoryCommand}"/>
                         <Button Margin="10 0"
                             Grid.Column="1"
                           Style="{StaticResource MaterialDesignPaperButton}"
                           ToolTip="Resource name: MaterialDesignPaperButton"
-                          Content="UPDATE"/>
+                          Content="UPDATE"
+                          Command="{Binding Path=CategoryViewModel.UpdateCategoryCommand}"/>
                         <Button Margin="10 0"
                             Grid.Column="3"
                           Style="{StaticResource MaterialDesignPaperButton}"
                           ToolTip="Resource name: MaterialDesignPaperButton"
-                          Content="SEARCH BY NAME"/>
+                          Content="SEARCH BY NAME"
+                          Command="{Binding Path=CategoryViewModel.SearchCategoryCommand}"/>
                         <TextBox Grid.Column="4" Margin="30 0"
                               MaxLength="12"
-                              materialDesign:TransitionAssist.DisableTransitions="True" />
+                              materialDesign:TransitionAssist.DisableTransitions="True" 
+                              Text="{Binding CategoryViewModel.SearchCategorytName, Mode=TwoWay}"/>
                     </Grid>
 
 
-                    <ListView Grid.Row="1" Grid.ColumnSpan="2" Margin="0,15,0,15"   ItemsSource="{Binding CategoryViewModel.CategoryList}" Name="lvCategory">
+                    <ListView Grid.Row="1" Grid.ColumnSpan="2" Margin="0,15,0,15" 
+                              ItemsSource="{Binding CategoryViewModel.CategoryList}" 
+                              SelectedItem="{Binding Path= CategoryViewModel.CurrentCategory}" Name="lvCategory" HorizontalAlignment="Left" Width="760">
                         <ListView.View>
                             <GridView>
                                 <GridView.Columns>
@@ -130,7 +136,7 @@
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
                                                     <Button x:Name="btnDelete" Content="Delete"
-                                                                Command="{Binding DataContext.AccountViewModel.DeleteCommand, ElementName=lvAccount}"
+                                                                Command="{Binding DataContext.CategoryViewModel.DeleteCategoryCommand, ElementName=lvAccount}"
                                                                 CommandParameter="{Binding Id}"
                                                             ></Button>
                                                 </StackPanel>
@@ -142,21 +148,21 @@
                         </ListView.View>
                     </ListView>
                     <StackPanel Grid.Row="1"  Orientation ="Vertical" 
-                            HorizontalAlignment="Left" Width="400" Margin="540,10,0,10" Background="#7FC6FF00" Grid.Column="1">
+                            HorizontalAlignment="Left" Width="400" Margin="540,10,0,10" Background="#7FC6FF00" Grid.Column="1" RenderTransformOrigin="0.917,0.495">
                         <Label Name="lbTitle11" Foreground="Red" FontWeight="DemiBold" 
                            FontSize="20" Content="{Binding Path=Id, Mode=OneWay}"  />
 
-                        <Label Name="lbCategoryId" Content="Product Name:"/>
+                        <Label Name="lbCategoryId" Content="Category Id:"/>
                         <TextBox Name="tbCategoryId" HorizontalAlignment="Stretch" 
                              Height="25" 
-                                 IsReadOnly="False"
-                             Text="{Binding Path=CategoryViewModel.CurrentCategory.Id ,Mode=TwoWay}"          
+                                 IsReadOnly="True"
+                             Text="{Binding Path=CategoryViewModel.CurrentCategory.Id ,Mode=TwoWay, Converter={StaticResource ValueConverters}}"                             
                             />
 
                         <Label Name="lbCategoryName" Content="Category name:"/>
                         <TextBox Name="tbCategoryName" HorizontalAlignment="Stretch" 
                              Height="25" 
-                             Text="{Binding Path = CategoryViewModel.CurrentCategory.Name,Mode=TwoWay, Converter={StaticResource ValueConverters}}"  
+                             Text="{Binding Path = CategoryViewModel.CurrentCategory.Name,Mode=TwoWay}"  
                                  />
 
 
@@ -178,7 +184,8 @@
                     <Grid Grid.Row="0" Grid.ColumnSpan="3">
                         <Grid.ColumnDefinitions >
                             <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="33.513"/>
+                            <ColumnDefinition Width="69.713"/>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="17.568"/>
                             <ColumnDefinition Width="70.685"/>
@@ -195,14 +202,14 @@
                           Style="{StaticResource MaterialDesignPaperButton}"
                           ToolTip="Resource name: MaterialDesignPaperButton"
                           Content="UPDATE"
-                          Command="{Binding Path=ProductViewModel.UpdateProductCommand}"/>
+                          Command="{Binding Path=ProductViewModel.UpdateProductCommand}" Grid.ColumnSpan="2"/>
                         <Button Margin="10,9,780,9"
                             Grid.Column="3"
                           Style="{StaticResource MaterialDesignPaperButton}"
                           ToolTip="Resource name: MaterialDesignPaperButton"
-                          Content="SEARCH BY NAME" Grid.ColumnSpan="3"
+                          Content="SEARCH BY NAME" Grid.ColumnSpan="4"
                           Command="{Binding Path=ProductViewModel.SearchProductCommand}"/>
-                        <TextBox Grid.Column="5" Margin="120,10,30,0"
+                        <TextBox Grid.Column="6" Margin="120,10,30,0"
                               MaxLength="12"
                               materialDesign:TransitionAssist.DisableTransitions="True"                              
                           Text="{Binding ProductViewModel.SearchProductName, Mode=TwoWay}"/>
